@@ -1,5 +1,5 @@
 {
-  "name": "shelf-cms-sdk",
+  "name": "shelf-client-sdk",
   "version": "1.0.0",
   "dependencies": {
     "uuid": "^9.0.0"
