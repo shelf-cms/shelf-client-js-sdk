@@ -9,7 +9,8 @@ import Orders from './orders'
 import { materializeConfig } from './firebase'
 import { LS } from './common/utils/browser'
 
-class ShelfSDK {
+export class ShelfSDK {
+  
   constructor() {
   }
 

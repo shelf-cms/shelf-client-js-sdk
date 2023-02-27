@@ -1,8 +1,13 @@
+import { ShelfSDK } from "."
 
 const NAME = 'tags'
 
 export default class Tags {
 
+  /**
+   * 
+   * @param {ShelfSDK} context 
+   */
   constructor(context) {
     this.context = context
     this.db = context.db

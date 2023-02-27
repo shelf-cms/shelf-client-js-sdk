@@ -1,3 +1,4 @@
+import { ShelfSDK } from '.'
 import { LS } from './common/utils/browser'
 const STORAGE_KEY = 'shelf_client_cart'
 
@@ -13,6 +14,10 @@ export default class Cart {
   subscribers = new Set()
   cart = initialState()
 
+  /**
+   * 
+   * @param {ShelfSDK} context 
+   */
   constructor(context) {
     this.context = context
     this.broadcast_channel = new BroadcastChannel(STORAGE_KEY)

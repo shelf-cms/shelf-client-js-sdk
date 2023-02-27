@@ -1,8 +1,11 @@
+
+// https://firebasestorage.googleapis.com/v0/b/wushwushgames-14ee2.appspot.com/o/collections%2Fps2-games.json?alt=media
+
 import { ShelfSDK } from "."
 
-const NAME = 'collections'
+const NAME = 'storefronts'
 
-export default class Collections {
+export default class StoreFronts {
 
   /**
    * 
@@ -17,12 +20,12 @@ export default class Collections {
   init() {
   }
 
-  byExportedCollection = handle => {
-    const json = encodeURIComponent(`collections/${handle}`) + '.json?alt=media'
+  byExported = async handle => {
+    const json = encodeURIComponent(`storefronts/${handle}`) + '.json?alt=media'
     const url = `${this.bucket}/o/${json}`
     // console.log('url ', url)
-    return fetch(url)
-        .then(res => res.json())
+    const response = await fetch(url)
+    return response.json()
   }
 
   byId = id => {
@@ -40,6 +43,11 @@ export default class Collections {
       limit
     }
     return this.db.col(NAME).paginate2(q)
+  }
+
+  byTags = (limit, ...tags) => {
+    const search = tags.map(t => `tag:${t}`)
+    return this.bySearch(limit, ...search) 
   }
 
 }

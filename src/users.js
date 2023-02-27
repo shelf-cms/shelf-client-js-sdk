@@ -1,3 +1,4 @@
+import { ShelfSDK } from '.'
 import { isEmailValid } from './common/utils/validation'
 
 
@@ -48,6 +49,11 @@ const validate = async d => {
 const NAME = 'users'
 
 export default class Users {
+
+  /**
+   * 
+   * @param {ShelfSDK} context 
+   */
   constructor(context) {
     this.context = context
     this.db = context.db
