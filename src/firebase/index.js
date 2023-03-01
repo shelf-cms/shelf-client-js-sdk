@@ -2,14 +2,24 @@ import { Database } from '../firestore-lite/mod'
 import Auth from '../auth-lite'
 
 /**
- * @typedef {object} Firebase
- * @property {Auth} Firebase.auth 
- * @property {Database} Firebase.db 
- * @property {object} Firebase.config 
+ * @typedef {object} FirebaseConfig
+ * @property {string} FirebaseConfig.apiKey 
+ * @property {string} FirebaseConfig.projectId 
+ * @property {string} FirebaseConfig.authDomain 
+ * @property {string} FirebaseConfig.storageBucket 
+ * @property {string} FirebaseConfig.appId 
  */
 
 /**
- * @param {object} config
+ * @typedef {object} Firebase
+ * @property {Auth} Firebase.auth 
+ * @property {Database} Firebase.db 
+ * @property {FirebaseConfig} Firebase.config 
+ */
+
+
+/**
+ * @param {FirebaseConfig} config
  * @returns {Firebase}
  */
 export const materializeConfig = (config) => {

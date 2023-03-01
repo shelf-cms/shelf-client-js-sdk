@@ -20,6 +20,11 @@ export default class StoreFronts {
   init() {
   }
 
+  /**
+   * 
+   * @param {string} handle 
+   * @returns Exported doc as object
+   */
   byExported = async handle => {
     const json = encodeURIComponent(`storefronts/${handle}`) + '.json?alt=media'
     const url = `${this.bucket}/o/${json}`
@@ -28,14 +33,21 @@ export default class StoreFronts {
     return response.json()
   }
 
-  byId = id => {
-    return this.db.doc(NAME, id).get()
-  }
-
+  /**
+   * 
+   * @param {string} handle 
+   * @returns document 
+   */
   byHandle = handle => {
     return this.db.doc(NAME, handle).get()
   }
 
+  /**
+   * 
+   * @param {number} limit 
+   * @param  {...any} terms search terms
+   * @returns a next handler promise that resolves into array of tuples [id, doc][]
+   */
   bySearch = (limit=25, ...terms) => {
     const q = {
       where: [ ['search', 'array-contains-any', terms] ],
