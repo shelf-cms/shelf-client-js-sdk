@@ -36,7 +36,7 @@ export default class Products {
   /**
    * 
    * @param {string} id 
-   * @returns 
+   * @returns {Promise<[boolean, string, ProductData]>}
    */
   byId = id => {
     return this.db.doc(NAME, id).get()
@@ -45,7 +45,7 @@ export default class Products {
   /**
    * 
    * @param {string} handle 
-   * @returns 
+   * @returns {Promise<[boolean, string, ProductData]>}
    */
   byHandle = handle => {
     return this.db.doc(NAME, handle).get()
@@ -54,8 +54,8 @@ export default class Products {
   /**
    * 
    * @param {string} limit 
-   * @param  {...any} search terms 
-   * @returns 
+   * @param  {...string} search terms 
+   * @returns {()=>Promise<[string, ProductData][]>} a one promise or next handler iterator
    */
   bySearch = (limit=25, ...terms) => {
     const q = {
@@ -69,8 +69,8 @@ export default class Products {
   /**
    * 
    * @param {number} limit 
-   * @param  {...any} tags 
-   * @returns 
+   * @param  {...string} tags 
+   * @returns {()=>Promise<[string, ProductData][]>} a one promise or next handler iterator
    */
   byTags = (limit=25, ...tags) => {
     const search = tags.map(t => `tag:${t}`)
@@ -80,8 +80,8 @@ export default class Products {
   /**
    * 
    * @param {number} limit 
-   * @param  {...any} collections 
-   * @returns 
+   * @param  {...string} collections 
+   * @returns {()=>Promise<[string, ProductData][]>} a one promise or next handler iterator
    */
   byCollections = (limit=25, ...collections) => {
     const search = collections.map(t => `col:${t}`)
@@ -91,8 +91,8 @@ export default class Products {
   /**
    * 
    * @param {number} limit 
-   * @param  {...any} kvs 
-   * @returns 
+   * @param  {...string} kvs 
+   * @returns {()=>Promise<[string, ProductData][]>} a one promise or next handler iterator
    */
   byCategory = (limit=25, ...kvs) => {
     const tags = kvs.map(kv => `${kv[0]}_${kv[1]}`)

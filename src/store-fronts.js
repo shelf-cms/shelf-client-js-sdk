@@ -23,7 +23,7 @@ export default class StoreFronts {
   /**
    * 
    * @param {string} handle 
-   * @returns Exported doc as object
+   * @returns {StorefrontExportData}
    */
   byExported = async handle => {
     const json = encodeURIComponent(`storefronts/${handle}`) + '.json?alt=media'
@@ -36,7 +36,7 @@ export default class StoreFronts {
   /**
    * 
    * @param {string} handle 
-   * @returns document 
+   * @returns {Promise<[boolean, string, StorefrontData]>}
    */
   byHandle = handle => {
     return this.db.doc(NAME, handle).get()
@@ -44,9 +44,9 @@ export default class StoreFronts {
 
   /**
    * 
-   * @param {number} limit 
-   * @param  {...any} terms search terms
-   * @returns a next handler promise that resolves into array of tuples [id, doc][]
+   * @param {string} limit 
+   * @param  {...string} search terms 
+   * @returns {()=>Promise<[string, StorefrontData][]>} a one promise or next handler iterator
    */
   bySearch = (limit=25, ...terms) => {
     const q = {
@@ -55,11 +55,6 @@ export default class StoreFronts {
       limit
     }
     return this.db.col(NAME).paginate2(q)
-  }
-
-  byTags = (limit, ...tags) => {
-    const search = tags.map(t => `tag:${t}`)
-    return this.bySearch(limit, ...search) 
   }
 
 }

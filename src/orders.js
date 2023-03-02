@@ -16,6 +16,11 @@ export default class Orders {
   init() {
   }
 
+  /**
+   * 
+   * @param {string} id 
+   * @returns {Promise<[boolean, string, OrderData]>}
+   */
   byId = id => {
     return this.db.doc(NAME, id).get()
   }

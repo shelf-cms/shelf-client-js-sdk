@@ -9,6 +9,7 @@ import Orders from './orders'
 import StoreFronts from './store-fronts'
 import { materializeConfig } from './firebase'
 import { LS } from './common/utils/browser'
+import './js-docs-types'
 
 export class ShelfSDK {
   

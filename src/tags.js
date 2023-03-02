@@ -16,10 +16,21 @@ export default class Tags {
   init() {
   }
 
+  /**
+   * 
+   * @param {string} id 
+   * @returns {Promise<[boolean, string, TagData]>}
+   */
   byId = id => {
     return this.db.doc(NAME, id).get()
   }
 
+  /**
+   * 
+   * @param {string} limit 
+   * @param  {...string} search terms 
+   * @returns {()=>Promise<[string, TagData][]>} a one promise or next handler iterator
+   */
   bySearch = (limit=25, ...terms) => {
     const q = {
       where: [ ['search', 'array-contains-any', terms] ],

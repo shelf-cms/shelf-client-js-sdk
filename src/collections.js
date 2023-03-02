@@ -17,6 +17,11 @@ export default class Collections {
   init() {
   }
 
+  /**
+   * 
+   * @param {string} handle 
+   * @returns {Promise<CollectionExportedData>}
+   */
   byExportedCollection = handle => {
     const json = encodeURIComponent(`collections/${handle}`) + '.json?alt=media'
     const url = `${this.bucket}/o/${json}`
@@ -25,14 +30,30 @@ export default class Collections {
         .then(res => res.json())
   }
 
+  /**
+   * 
+   * @param {string} id 
+   * @returns {Promise<[boolean, string, CollectionData]>}
+   */
   byId = id => {
     return this.db.doc(NAME, id).get()
   }
 
+  /**
+   * 
+   * @param {string} handle 
+   * @returns {Promise<[boolean, string, CollectionData]>}
+   */
   byHandle = handle => {
     return this.db.doc(NAME, handle).get()
   }
 
+  /**
+   * 
+   * @param {number} limit 
+   * @param  {...string} terms 
+   * @returns {()=>Promise<[string, CollectionData][]>} a one promise or next handler iterator
+   */
   bySearch = (limit=25, ...terms) => {
     const q = {
       where: [ ['search', 'array-contains-any', terms] ],
