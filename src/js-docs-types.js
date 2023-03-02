@@ -1,8 +1,18 @@
 
+// misc
+
+/**
+ * @typedef {object} AttributeData
+ * @property {string} key
+ * @property {string} val
+ */
+
+
 // products
 
 /** 
  * @typedef {object} ProductData
+ * @property {AttributeData[]} attributes
  * @property {string[]} collections
  * @property {string} video
  * @property {number} price
@@ -23,6 +33,7 @@
 
 /** 
  * @typedef {object} CollectionData
+ * @property {AttributeData[]} attributes
  * @property {string[]} tags
  * @property {number} updatedAt
  * @property {string[]} media
@@ -46,6 +57,7 @@
 /** 
  * @typedef {object} StorefrontData
  * @property {string} handle
+ * @property {AttributeData[]} attributes
  * @property {string[]} collections
  * @property {object} exported_collections
  * @property {string[]} exported_collections.items
@@ -67,6 +79,7 @@
 /** 
  * @typedef {object} StorefrontExportData
  * @property {string} handle
+ * @property {AttributeData[]} attributes
  * @property {CollectionData} collections
  * @property {CollectionExportedData[]} exported_collections
  * @property {DiscountData[]} discounts
