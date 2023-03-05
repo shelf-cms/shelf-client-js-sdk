@@ -65,7 +65,7 @@ export default (ctx, colId) => {
       let last_doc = undefined
       let exhausted_next = false
       let q = toQuery(base_query)
-
+      // console.log('q', q)
       /**
        * @typedef {[string, T]} Item
        * @returns {Promise<[string, T][]>}

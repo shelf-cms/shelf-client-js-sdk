@@ -1,4 +1,4 @@
-import { ShelfSDK } from "."
+import { ShelfSDK } from '.'
 
 const NAME = 'orders'
 
@@ -25,9 +25,16 @@ export default class Orders {
     return this.db.doc(NAME, id).get()
   }
 
+  /**
+   * 
+   * @param {number} limit 
+   * @param {string} uid 
+   * @returns {()=>Promise<[string, OrderData][]>} a one promise or next handler iterator
+   */
   byUserId = (limit=25, uid) => {
     const q = {
-      where: [ ['contact.uid', '==', uid] ],
+      where: [ ['search', 'array-contains-any', [`uid:${uid}`]] ],
+      orderBy: [ ['updateAt', 'desc'] ],
       limit
     }
     return this.db.col(NAME).paginate2(q)

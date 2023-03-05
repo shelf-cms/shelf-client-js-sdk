@@ -247,9 +247,11 @@
 /** 
  * @typedef {object} LineItem
  * @property {number} price
+ * @property {string} id
  * @property {number} qty
  * @property {boolean} stock_reserved
- * @property {import('./products').ProductData} data */ 
+ * @property { ProductData} data 
+ **/ 
 
 /** 
  * @typedef {object} OrderData

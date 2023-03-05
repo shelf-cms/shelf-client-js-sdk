@@ -63,6 +63,10 @@ export default class Users {
     return this.db.doc(NAME, id).get()
   }
 
+  byId = (id) => {
+    return this.get(id)
+  }
+
   update = (id, data) => {
     return Promise.reject('Update is not supported !! ')
   }

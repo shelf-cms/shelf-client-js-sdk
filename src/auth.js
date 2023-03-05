@@ -1,10 +1,13 @@
 import { ShelfSDK } from '.'
 import { LS } from './common/utils/browser'
+import './js-docs-types'
+
 const USER_KEY = 'shelf_client_user'
 
 export default class Auth {
 
   subscribers = new Set()
+  /**@type {UserData} */
   currentUser = undefined
   isAuthenticated = false
 

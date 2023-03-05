@@ -20,6 +20,10 @@ export default class StoreFronts {
   init() {
   }
 
+  byId = (id) => {
+    return this.db.doc(NAME, id).get()
+  }
+
   /**
    * 
    * @param {string} handle 
