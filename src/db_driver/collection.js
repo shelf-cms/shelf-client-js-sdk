@@ -75,7 +75,7 @@ export default (ctx, colId) => {
         if(exhausted_next)
           throw new Error('end')
 
-        const cq = last_doc ? { ...cq, startAt: last_doc, offset: 1} : q
+        const cq = last_doc ? { ...q, startAt: last_doc, offset: 1} : q
         // console.log(cq)
         // console.log(base_query)
 
