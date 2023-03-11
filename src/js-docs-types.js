@@ -79,7 +79,6 @@
 /** 
  * @typedef {object} StorefrontExportData
  * @property {string} handle
- * @property {AttributeData[]} attributes
  * @property {CollectionData} collections
  * @property {CollectionExportedData[]} exported_collections
  * @property {DiscountData[]} discounts
@@ -205,10 +204,16 @@
 
 /** 
  * @typedef {object} Address
- * @property {string} street
+ * @property {string} firstname
+ * @property {string} lastname
+ * @property {string} company
+ * @property {string} street1
+ * @property {string} street2
  * @property {string} city
  * @property {string} country
- * @property {string} pobox
+ * @property {string} state
+ * @property {string} zip_code
+ * @property {string} postal_code
  */
 
 /** 
@@ -247,10 +252,9 @@
 /** 
  * @typedef {object} LineItem
  * @property {number} price
- * @property {string} id
  * @property {number} qty
  * @property {boolean} stock_reserved
- * @property { ProductData} data 
+ * @property {ProductData} data 
  **/ 
 
 /** 
@@ -260,15 +264,14 @@
  * @property {PaymentOptions} status.payment
  * @property {FulfillOptions} status.fulfillment
  * @property {object} contact
- * @property {string} contact.firstname
- * @property {string} contact.lastname
+ * @property {string} contact.phone
  * @property {string} contact.email
  * @property {string} contact.uid
  * @property {LineItem[]} line_items
  * @property {number} total_price
  * @property {string} id
  * @property {number} createdAt
- * @property {import('./users').Address} address
+ * @property {Address} address
  * @property {number} updatedAt
  * @property {string} notes
  * @property {object} delivery
