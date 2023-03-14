@@ -251,6 +251,7 @@
 
 /** 
  * @typedef {object} LineItem
+ * @property {string} id
  * @property {number} price
  * @property {number} qty
  * @property {boolean} stock_reserved
