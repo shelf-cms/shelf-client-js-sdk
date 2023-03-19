@@ -3,19 +3,12 @@ import { ShelfSDK } from '.'
 import { LS } from './common/utils/browser'
 const STORAGE_KEY = 'shelf_client_cart'
 
-/** 
- * @typedef {object} CartData
- * @property {string} order_id
- * @property {number} createdAt
- * @property {LineItem[]} line_items
- */
-
 /**
  * @returns {CartData}
  */
 const initialState = () => {
   return {
-    order_id: uuidv4(),
+    id: uuidv4(),
     createdAt: new Date().getTime(),
     line_items: [] // [{count, id, data}]
   }

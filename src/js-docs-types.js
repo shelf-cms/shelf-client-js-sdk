@@ -176,6 +176,98 @@
  */
 
 
+/** 
+ * @enum {DiscountApplication} 
+ */
+exports.DiscountApplicationEnum = {
+  Auto:   { id: 0, name: 'Automatic'},
+  Manual: { id: 1, name: 'Manual'},
+}
+
+/**
+ * @enum {FilterMeta} 
+ */
+exports.FilterMetaEnum = { 
+  p_in_collections: { 
+    id: 0, type:'product', 
+    op: 'p-in-collections', 
+    name: 'Product In Collection'
+  },
+  p_not_in_collections: { 
+    id: 1, type:'product', 
+    op: 'p-not-in-collections', 
+    name: 'Product not in Collection'
+  },
+  p_in_handles: {
+    id: 2, type:'product', 
+    op: 'p-in-handles', 
+    name: 'Product has ID'
+  },
+  p_not_in_handles: { 
+    id: 3, type:'product', 
+    op: 'p-not-in-handles', 
+    name: 'Product excludes ID'
+  },
+  p_in_tags: { 
+    id: 4, type:'product', 
+    op: 'p-in-tags', 
+    name: 'Product has Tag'
+  },
+  p_not_in_tags: {
+    id: 5, type:'product', 
+    op: 'p-not-in-tags', 
+    name: 'Product excludes Tag'
+  },    
+  p_all: {
+    id: 6, type:'product', 
+    op: 'p-all', name: 'All Products'
+  },    
+  o_subtotal_in_range: {
+    id: 100, type:'order', 
+    op: 'o-subtotal-in-range', 
+    name: 'Order subtotal in range'
+  },    
+  o_items_count_in_range: {
+    id: 101, type:'order', 
+    op: 'o-items-count-in-range', 
+    name: 'Order items count in range'
+  },    
+  o_date_in_range: {
+    id: 102, type:'order', 
+    op: 'o-date-in-range', 
+    name: 'Order in dates'
+  },    
+  o_has_customer: {
+    id: 103, type:'order', 
+    op: 'o-has-customer', 
+    name: 'Order has Customers'
+  },    
+}
+
+/** 
+ * @enum {DiscountMeta} 
+ */
+exports.DiscountMetaEnum = {
+  regular: { 
+    id: 0, 
+    type: 'regular',          
+    name : 'Regular Discount', 
+  },
+  bulk: { 
+    id: 1, type: 'bulk',          
+    name : 'Bulk Discount', 
+  },
+  buy_x_get_y: { 
+    id: 2, type: 'buy_x_get_y' ,  
+    name : 'Buy X Get Y (NA)',
+  },
+  order: { 
+    id: 3, type: 'order', 
+    name : 'Order Discount',
+  },
+}
+
+
 // images
 
 /** 
@@ -250,13 +342,52 @@
  */
 
 /** 
+ * @enum {FulfillOptions} 
+ */
+exports.FulfillOptionsEnum = {
+  draft: { 
+    id: 0, name2: 'drafts', name: 'Draft'
+  },
+  processing: { 
+    id: 1, name2: 'processing' ,name: 'Processing (Stock Reserved)'
+  },
+  fulfilled: { 
+    id: 2, name2: 'fulfilled', name: 'Fulfilled' 
+  },
+  cancelled: { 
+    id: 3, name2: 'cancelled', name: 'Cancelled (Stock returned)' 
+  }
+}
+
+/** 
+ * @enum {PaymentOptions} 
+ */
+exports.PaymentOptionsEnum = {
+  paid: { 
+    id: 0, name: 'Paid', name2: 'paid'
+  },
+  unpaid: { 
+    id: 1, name: 'Unpaid', name2: 'unpaid'
+  },
+  partially_paid: { 
+    id: 2, name: 'Partially paid', name2: 'partially paid' 
+  },
+  refunded: { 
+    id: 3, name: 'Refunded', name2: 'refunded' 
+  },
+  partially_refunded: { 
+    id: 4, name: 'Partially Refunded', name2: 'partially refunded' 
+  },
+}
+
+
+/** 
  * @typedef {object} LineItem
  * @property {string} id
  * @property {number} price
  * @property {number} qty
  * @property {boolean} stock_reserved
- * @property {ProductData} data 
- **/ 
+ * @property {ProductData} data */ 
 
 /** 
  * @typedef {object} OrderData
@@ -341,4 +472,13 @@
  * @property {number} fromDay from start of day (millis)
  * @property {number} toDay to an end of day (millis)
  * @property {number} updatedAt when updated (millis)
+ */
+
+// cart
+
+/** 
+ * @typedef {object} CartData
+ * @property {string} id
+ * @property {number} createdAt
+ * @property {LineItem[]} line_items
  */
