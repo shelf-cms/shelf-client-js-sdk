@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
+import { CartData, ProductData, 
+         LineItem } from './js-docs-types'
 import { ShelfSDK } from '.'
 import { LS } from './common/utils/browser'
 const STORAGE_KEY = 'shelf_client_cart'
@@ -129,7 +131,7 @@ export default class Cart {
       return this.removeLineItem(id)
   
     const item = this.getLineitem(id)
-
+    
     if(item) {
       item.qty = Math.min(qty, max_qty)
       item.data = data ?? item.data

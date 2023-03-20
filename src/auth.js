@@ -1,6 +1,6 @@
 import { ShelfSDK } from '.'
 import { LS } from './common/utils/browser'
-import './js-docs-types'
+import { UserData } from './js-docs-types'
 
 const USER_KEY = 'shelf_client_user'
 
@@ -64,6 +64,11 @@ export default class Auth {
     }
   }
 
+  /**
+   * 
+   * @param {UserData} user 
+   * @param {boolean} isAuthenticated 
+   */
   _update_and_notify_subscribers = (user, isAuthenticated) => {
     this.currentUser = user
     this.isAuthenticated = isAuthenticated
@@ -139,6 +144,10 @@ export default class Auth {
     this._broadcast()
   }
 
+  /**
+   * 
+   * @param {UserData} data 
+   */
   updateCurrentUser = async (data) => {
     data = {...this.currentUser, ...data}
     await this.context.users.set(data.uid, data)

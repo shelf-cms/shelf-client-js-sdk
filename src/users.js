@@ -1,6 +1,6 @@
 import { ShelfSDK } from '.'
 import { isEmailValid } from './common/utils/validation'
-
+import { UserData } from './js-docs-types'
 
 const text2tokens = (text) => {
   return text?.match(/\S+/g)
@@ -59,6 +59,11 @@ export default class Users {
     this.db = context.db
   }
 
+  /**
+   * 
+   * @param {string} id 
+   * @returns {[exists: boolean, id: string, data: UserData]}
+   */
   get = (id) => {
     return this.db.doc(NAME, id).get()
   }
@@ -71,6 +76,12 @@ export default class Users {
     return Promise.reject('Update is not supported !! ')
   }
 
+  /**
+   * 
+   * @param {string} id 
+   * @param {import('./js-docs-types').UserData} data 
+   * @returns 
+   */
   set = async (id, data) => {
     // side effects:
     // 1. update search index

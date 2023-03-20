@@ -68,6 +68,7 @@
  * @property {string} _published
  * @property {string[]} media
  * @property {string[]} products
+ * @property {string[]} shipping_methods
  * @property {number} createdAt
  * @property {string[]} search
  * @property {number} updatedAt
@@ -83,6 +84,7 @@
  * @property {CollectionExportedData[]} exported_collections
  * @property {DiscountData[]} discounts
  * @property {ProductData[]} products
+ * @property {ShippingData[]} shipping_methods
  * @property {string} title
  * @property {string} _published
  * @property {string[]} media
@@ -179,7 +181,7 @@
 /** 
  * @enum {DiscountApplication} 
  */
-exports.DiscountApplicationEnum = {
+export const DiscountApplicationEnum = {
   Auto:   { id: 0, name: 'Automatic'},
   Manual: { id: 1, name: 'Manual'},
 }
@@ -187,7 +189,7 @@ exports.DiscountApplicationEnum = {
 /**
  * @enum {FilterMeta} 
  */
-exports.FilterMetaEnum = { 
+export const FilterMetaEnum = { 
   p_in_collections: { 
     id: 0, type:'product', 
     op: 'p-in-collections', 
@@ -247,7 +249,7 @@ exports.FilterMetaEnum = {
 /** 
  * @enum {DiscountMeta} 
  */
-exports.DiscountMetaEnum = {
+export const DiscountMetaEnum = {
   regular: { 
     id: 0, 
     type: 'regular',          
@@ -344,7 +346,7 @@ exports.DiscountMetaEnum = {
 /** 
  * @enum {FulfillOptions} 
  */
-exports.FulfillOptionsEnum = {
+export const FulfillOptionsEnum = {
   draft: { 
     id: 0, name2: 'drafts', name: 'Draft'
   },
@@ -362,7 +364,7 @@ exports.FulfillOptionsEnum = {
 /** 
  * @enum {PaymentOptions} 
  */
-exports.PaymentOptionsEnum = {
+export const PaymentOptionsEnum = {
   paid: { 
     id: 0, name: 'Paid', name2: 'paid'
   },
@@ -473,6 +475,7 @@ exports.PaymentOptionsEnum = {
  * @property {number} toDay to an end of day (millis)
  * @property {number} updatedAt when updated (millis)
  */
+
 
 // cart
 
