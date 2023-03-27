@@ -6,6 +6,7 @@
  * @property {string} key
  * @property {string} val
  */
+export const AttributeData = {}
 
 
 // products
@@ -27,6 +28,7 @@
  * @property {number} createdAt
  * @property {number} compareAtPrice
  */
+export const ProductData = {}
 
 
 // collections
@@ -43,6 +45,7 @@
  * @property {string} desc
  * 
  */
+export const CollectionData = {}
 
 /** 
  * @typedef {object} ADD_PRODUCTS
@@ -51,6 +54,7 @@
  * 
  * @typedef { CollectionData & ADD_PRODUCTS} CollectionExportedData
  */
+export const CollectionExportedData = {}
 
 // store-front
 
@@ -76,6 +80,7 @@
  * @property {string} video
  * @property {string[]} tags
  */
+export const StorefrontData = {}
 
 /** 
  * @typedef {object} StorefrontExportData
@@ -95,6 +100,7 @@
  * @property {string} video
  * @property {string[]} tags
  */
+export const StorefrontExportData = {}
 
 
 // discounts
@@ -104,6 +110,7 @@
  * @property {string} name readable short name
  * 
  */
+export const DiscountApplication = {}
 
 /**
  * @typedef {object} FilterMeta 
@@ -113,6 +120,7 @@
  * @property {string} name readable short name
  * 
  */
+export const FilterMeta = {}
 
 /** 
  * @typedef {object} DiscountMeta 
@@ -121,12 +129,14 @@
  * @property {string} name readable short name
  * 
  */
+export const DiscountMeta = {}
 
 /** 
  * @typedef {object} RegularDiscountExtra
  * @property {number} fixed
  * @property {number} percent
  */
+export const RegularDiscountExtra = {}
 
 /** 
  * @typedef {object} OrderDiscountExtra
@@ -134,6 +144,7 @@
  * @property {number} percent
  * @property {boolean} free_shipping
  */
+export const OrderDiscountExtra = {}
 
 /** 
  * @typedef {object} BulkDiscountExtra
@@ -143,12 +154,14 @@
  * @property {number} max
  * @property {boolean} recursive
  */
+export const BulkDiscountExtra = {}
 
 /** 
  * @typedef {object} DiscountDetails
  * @property {DiscountMetaEnum} meta
  * @property {RegularDiscountExtra|OrderDiscountExtra|BulkDiscountExtra} info.discount.extra
  */
+export const DiscountDetails = {}
 
 /** 
  * @typedef {object} Filter
@@ -157,6 +170,7 @@
  * @property {number} value.from
  * @property {number} value.to
  */
+export const Filter = {}
 
 /** 
  * @typedef {object} DiscountData
@@ -176,6 +190,7 @@
  * @property {string[]} tags
  * @property {string} desc
  */
+export const DiscountData = {}
 
 
 /** 
@@ -281,6 +296,7 @@ export const DiscountMetaEnum = {
  * @property {string[]} usage
  * @property {number} updatedAt
  */
+export const ImageData = {}
 
 // tags
 
@@ -293,6 +309,7 @@ export const DiscountMetaEnum = {
  * @property {number} createdAt
  * @property {string} desc
  */
+export const TagData = {}
 
 // users
 
@@ -309,6 +326,7 @@ export const DiscountMetaEnum = {
  * @property {string} zip_code
  * @property {string} postal_code
  */
+export const Address = {}
 
 /** 
  * @typedef {object} UserData
@@ -323,6 +341,7 @@ export const DiscountMetaEnum = {
  * @property {string} phone_number
  * @property {string[]} tags
  */
+export const UserData = {}
 
 
 // orders
@@ -390,6 +409,7 @@ export const PaymentOptionsEnum = {
  * @property {number} qty
  * @property {boolean} stock_reserved
  * @property {ProductData} data */ 
+export const LineItem = {}
 
 /** 
  * @typedef {object} OrderData
@@ -413,6 +433,7 @@ export const PaymentOptionsEnum = {
  * @property {number} delivery.price
  * @property {string[]} discounts
  */
+export const OrderData = {}
 
 
 // posts
@@ -427,6 +448,7 @@ export const PaymentOptionsEnum = {
  * @property {string} text
  * @property {string[]} media
  */
+export const PostData = {}
 
 
 // shipping methods
@@ -438,7 +460,7 @@ export const PaymentOptionsEnum = {
  * @property {number} updatedAt
  * @property {string} name
  */
-
+export const ShippingData = {}
 
 // stats
 
@@ -485,3 +507,4 @@ export const PaymentOptionsEnum = {
  * @property {number} createdAt
  * @property {LineItem[]} line_items
  */
+export const CartData = {}
