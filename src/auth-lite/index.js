@@ -31,9 +31,11 @@
 // It's a bit verbose, but takes less characters than writing it manually.
 const storageApiDefault = () => {
 	const getLocalStorage = () => {
-		console.log('=======================')
-		const hasStorage = typeof localStorage !== undefined
-		return hasStorage ? localStorage : {}
+		try {
+			return window.localStorage
+		} catch (e) {
+			return {}
+		}
 	}
 	const local = getLocalStorage()
 	const storageApi = {};
