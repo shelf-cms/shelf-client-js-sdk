@@ -1,5 +1,5 @@
 {
-  "name": "shelf-client-sdk",
+  "name": "shelf-client-js-sdk",
   "version": "1.0.0",
   "dependencies": {
     "uuid": "^9.0.0"
@@ -23,11 +23,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wush-wush-games/wush-store-front.git"
+    "url": "git+https://github.com/shelf-cms/shelf-client-js-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/wush-wush-games/wush-store-front/issues"
+    "url": "https://github.com/shelf-cms/shelf-client-js-sdk/issues"
   },
-  "homepage": "https://github.com/wush-wush-games/wush-store-front#readme",
+  "homepage": "https://github.com/shelf-cms/shelf-client-js-sdk#readme",
   "description": ""
 }
