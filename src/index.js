@@ -13,6 +13,8 @@ import './js-docs-types'
 
 export class ShelfSDK {
   
+  _has_init = false
+
   constructor() {
   }
 
@@ -34,16 +36,24 @@ export class ShelfSDK {
 
     this.auth.init()
     this.cart.init()
+    this._has_init = true
+  }
+
+  get hasInit() {
+    return this._has_init
   }
 }
 
 
-export const shelf = new ShelfSDK()
+// export const shelf = new ShelfSDK()
+
+/**@type {ShelfSDK} */
+let shelf = new ShelfSDK()
 
 const CONFIG_KEY = `shelf_client_latest_config`
 
 export const hasInit = () => { 
-  return shelf.hasInited
+  return shelf && shelf.hasInited
 }
 
 /**

@@ -29,8 +29,21 @@
 
 // Generates a localStorage adapter.
 // It's a bit verbose, but takes less characters than writing it manually.
-const storageApi = {};
-['set', 'get', 'remove'].forEach(m => (storageApi[m] = async (k, v) => localStorage[m + 'Item'](k, v)));
+const storageApiDefault = () => {
+	const getLocalStorage = () => {
+		console.log('=======================')
+		const hasStorage = typeof localStorage !== undefined
+		return hasStorage ? localStorage : {}
+	}
+	const local = getLocalStorage()
+	const storageApi = {};
+	['set', 'get', 'remove'].forEach(
+		m => {
+			storageApi[m] = async (k, v) => local[m + 'Item'](k, v)
+		}
+	);
+	return storageApi
+}
 
 /**
  * Encapsulates authentication flow logic.
@@ -40,14 +53,14 @@ const storageApi = {};
  * @param {Array.<ProviderOptions|string>} options.providers Array of arguments that will be passed to the addProvider method.
  */
 export default class Auth {
-	constructor({ apiKey, redirectUri, name = 'default', storage = storageApi } = {}) {
+	constructor({ apiKey, redirectUri, name = 'default', storage } = {}) {
 		if (!apiKey) throw Error('The argument "apiKey" is required');
 
 		Object.assign(this, {
 			apiKey,
 			redirectUri,
 			name,
-			storage,
+			storage: storage ?? storageApiDefault(),
 			listeners: []
 		});
 
