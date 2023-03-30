@@ -1,4 +1,5 @@
 import { ShelfSDK } from '.'
+import { OrderData } from './js-docs-types'
 
 const NAME = 'orders'
 
