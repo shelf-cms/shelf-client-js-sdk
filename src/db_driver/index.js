@@ -1,6 +1,6 @@
-import docHandler from './document'
-import colHandler from './collection'
-import { ShelfSDK } from '..'
+import docHandler from './document.js'
+import colHandler from './collection.js'
+import { ShelfSDK } from '../index.js'
 // import { ShelfSDK } from '..'
 
 // export {docHandler, colHandler}

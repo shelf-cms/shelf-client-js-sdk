@@ -1,6 +1,6 @@
-import { ShelfSDK } from '.'
-import { isEmailValid } from './common/utils/validation'
-import { UserData } from './js-docs-types'
+import { ShelfSDK } from './index.js'
+import { isEmailValid } from './common/utils/validation.js'
+import { UserData } from './js-docs-types.js'
 
 const text2tokens = (text) => {
   return text?.match(/\S+/g)

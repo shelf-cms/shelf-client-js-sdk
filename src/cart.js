@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 import { CartData, ProductData, 
-         LineItem } from './js-docs-types'
-import { ShelfSDK } from '.'
-import { LS } from './common/utils/browser'
+         LineItem } from './js-docs-types.js'
+import { ShelfSDK } from './index.js'
+import { LS } from './common/utils/browser.js'
 const STORAGE_KEY = 'shelf_client_cart'
 
 /**

@@ -1,5 +1,5 @@
-import { ShelfSDK } from '.'
-import { OrderData } from './js-docs-types'
+import { ShelfSDK } from './index.js'
+import { OrderData } from './js-docs-types.js'
 
 const NAME = 'orders'
 

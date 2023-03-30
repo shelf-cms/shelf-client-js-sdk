@@ -1,5 +1,6 @@
-import { ShelfSDK } from '.'
-import { CollectionData, CollectionExportedData } from './js-docs-types'
+import { ShelfSDK } from './index.js'
+import { CollectionData, 
+  CollectionExportedData } from './js-docs-types.js'
 
 const NAME = 'collections'
 

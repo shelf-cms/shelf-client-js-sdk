@@ -1,5 +1,5 @@
-import { ShelfSDK } from '.'
-import { TagData } from './js-docs-types'
+import { ShelfSDK } from './index.js'
+import { TagData } from './js-docs-types.js'
 
 const NAME = 'tags'
 

@@ -1,6 +1,6 @@
-import { ShelfSDK } from '.'
-import { LS } from './common/utils/browser'
-import { UserData } from './js-docs-types'
+import { ShelfSDK } from './index.js'
+import { LS } from './common/utils/browser.js'
+import { UserData } from './js-docs-types.js'
 
 const USER_KEY = 'shelf_client_user'
 

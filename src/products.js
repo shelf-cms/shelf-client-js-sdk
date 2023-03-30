@@ -1,8 +1,8 @@
 
 // https://firebasestorage.googleapis.com/v0/b/wushwushgames-14ee2.appspot.com/o/collections%2Fps2-games.json?alt=media
 
-import { ShelfSDK } from '.'
-import { ProductData } from './js-docs-types'
+import { ShelfSDK } from './index.js'
+import { ProductData } from './js-docs-types.js'
 
 const NAME = 'products'
 

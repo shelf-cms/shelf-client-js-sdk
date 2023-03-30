@@ -1,5 +1,5 @@
 import { Database } from '../firestore-lite/mod'
-import Auth from '../auth-lite'
+import Auth from '../auth-lite/index.js'
 
 /**
  * @typedef {object} FirebaseConfig
