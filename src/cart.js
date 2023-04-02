@@ -41,7 +41,6 @@ export default class Cart {
     // load saved cart
     /** @type {CartData} */
     this.cart = { ...initialState(), ...LS.get(STORAGE_KEY) }
-    console.log('cart ', this.cart)
 
     const save = () => {
       LS.set(STORAGE_KEY, this.cart)
@@ -149,6 +148,9 @@ export default class Cart {
    * @returns {LineItem | undefined}
    */
   addLineItem = (id, qty, max_qty=Number.MAX_SAFE_INTEGER, data) => {
+    if(qty==0)
+      return undefined
+
     let item = this.getLineitem(id)
     if(item)
       return this.updateLineItem(item.id, item.qty+qty, max_qty, data)

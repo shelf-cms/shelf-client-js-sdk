@@ -32,6 +32,14 @@ export default class Collections {
         .then(res => res.json())
   }
 
+  byExported = async handle => {
+    const json = encodeURIComponent(`collections/${handle}`) + '.json?alt=media'
+    const url = `${this.bucket}/o/${json}`
+    // console.log('url ', url)
+    const response = await fetch(url)
+    return response.json()
+  }
+
   /**
    * 
    * @param {string} id 

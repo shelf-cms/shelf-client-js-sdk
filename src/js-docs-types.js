@@ -43,6 +43,7 @@ export const ProductData = {}
  * @property {string} title
  * @property {string[]} search
  * @property {string} desc
+ * @property {string} _published
  * 
  */
 export const CollectionData = {}
@@ -85,7 +86,8 @@ export const StorefrontData = {}
 /** 
  * @typedef {object} StorefrontExportData
  * @property {string} handle
- * @property {CollectionData} collections
+ * @property {AttributeData[]} attributes
+ * @property {CollectionData[]} collections
  * @property {CollectionExportedData[]} exported_collections
  * @property {DiscountData[]} discounts
  * @property {ProductData[]} products
