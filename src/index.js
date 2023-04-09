@@ -7,6 +7,7 @@ import Collections from './collections.js'
 import Tags from './tags.js'
 import Orders from './orders.js'
 import StoreFronts from './store-fronts.js'
+import Checkout from './checkout.js'
 import { materializeConfig } from './firebase'
 import { LS } from './common/utils/browser.js'
 import './js-docs-types.js'
@@ -32,6 +33,7 @@ export class ShelfSDK {
     this.collections = new Collections(this)
     this.tags = new Tags(this)
     this.orders = new Orders(this)
+    this.checkout = new Checkout(this)
     this.store_fronts = new StoreFronts(this)
 
     this.auth.init()
