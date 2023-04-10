@@ -175,9 +175,18 @@ export class Session {
 
   }
 
+  /**
+   * @param {string} v 
+   */
   _get_url = (v) => {
-    const HOST = process.env.NEXT_PUBLIC_BACKEND_HOST
-    return `${HOST}/${this._ctx.firebase.config.projectId}/us-central1/${v}`
+    let backend_entry = this._ctx.config().backend_endpoint
+    if(backend_entry.endsWith('/'))
+      backend_entry = backend_entry.slice(0, -1)
+    if(v.startsWith('/'))
+      v = v.slice(1)
+    return `${backend_entry}/${v}`
+    // const HOST = process.env.NEXT_PUBLIC_BACKEND_HOST
+    // return `${HOST}/${this._ctx.firebase.config.projectId}/us-central1/${v}`
   }
 
   /**

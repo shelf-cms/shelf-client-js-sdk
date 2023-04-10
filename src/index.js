@@ -12,19 +12,32 @@ import { materializeConfig } from './firebase'
 import { LS } from './common/utils/browser.js'
 import './js-docs-types.js'
 
+/**
+ * @typedef {object} ShelfConfig
+ * @property {import('./firebase').FirebaseConfig} firebase firebase config
+ * @property {string} backend_endpoint backend endpoint entry
+ */
+
 export class ShelfSDK {
   
   _has_init = false
+  /**@type {ShelfConfig} */
+  _config = undefined
 
   constructor() {
   }
 
+  config = () => {
+    return this._config
+  }
+
   /**
    * 
-   * @param {import('./firebase').FirebaseConfig} firebaseConfig 
+   * @param {ShelfConfig} config 
    */
-  init(firebaseConfig) {
-    this.firebase = materializeConfig(firebaseConfig)
+  init(config) {
+    this._config = config
+    this.firebase = materializeConfig(config.firebase)
     this.db = new FirebaseDB(this)
     this.auth = new Auth(this)
     this.cart = new Cart(this)
@@ -46,9 +59,6 @@ export class ShelfSDK {
   }
 }
 
-
-// export const shelf = new ShelfSDK()
-
 /**@type {ShelfSDK} */
 let shelf = new ShelfSDK()
 
@@ -60,7 +70,7 @@ export const hasInit = () => {
 
 /**
  * 
- * @param {import('./firebase').FirebaseConfig} config 
+ * @param {ShelfConfig} config 
  * @returns 
  */
 export const initShelf = (config) => {
@@ -74,7 +84,7 @@ export const initShelf = (config) => {
 
 /**
  * 
- * @returns {import('./firebase').FirebaseConfig}
+ * @returns {ShelfConfig}
  */
 export const getLatestConfig = () => {
   return LS.get(CONFIG_KEY)
