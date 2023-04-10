@@ -29,20 +29,20 @@ import { Address, CartData,
  * @property {LineItem[]} line_items
  * 
  * @typedef {object} DiscountContext
- * @property {EvoEntry[]} evo
- * @property {string} uid
- * @property {ShippingData} shipping_method
+ * @property {EvoEntry[]} evo evolution of discounts applications
+ * @property {string} uid user id
+ * @property {ShippingData} shipping_method selected shipping method
  * @property {number} subtotal_undiscounted total of items price before discounts
  * @property {number} subtotal_discount total of items price after discounts
  * @property {number} subtotal subtotal_undiscounted - subtotal_discount
  * @property {number} total subtotal + shipping
- * @property {number} total_quantity
+ * @property {number} total_quantity total quantity of items in order
  * @property {DiscountError[]} errors
  * 
  * @typedef {object} CheckoutData
- * @property {ReserveResult} reserve
- * @property {DiscountContext} pricing
- * @property {object} payment_gateway
+ * @property {ReserveResult} reserve items temporal reservation results
+ * @property {DiscountContext} pricing pricing result
+ * @property {object} payment_gateway everything about payment gateway
  * @property {number} createdAt
  * @property {boolean} status
  * @property {string} id
@@ -74,8 +74,9 @@ const isEmailValid = (value) => {
  * @enum {CheckoutStatus}
  */
 export const Status = {
-  init : { name: 'init' },
-  ready : { name: 'ready' },
+  not_initialized : { name: 'not_initialized' },
+  initialized : { name: 'initialized' },
+  // ready : { name: 'ready' },
   created : { name: 'created' },
   final : { name: 'final' },
 }
@@ -83,7 +84,8 @@ export const Status = {
 export class Session {
   /**@type {string | undefined} */
   _gateway_id = undefined
-  _status = Status.init.name
+  _status = Status.not_initialized.name
+  _loading = false
   /**@type {string[]} */
   _errors = []
   /**@type {CartData} */
@@ -104,6 +106,9 @@ export class Session {
     this._ctx = ctx
   }
 
+  get loading() {
+    return this._loading
+  }
   get status() {
     return this._status
   }
@@ -122,14 +127,23 @@ export class Session {
   get orderId() {
     return this._orderId
   }
-  get isIniting() { 
-    return this.status===Status.init.name
+  get isInitialized() { 
+    return this.status!==Status.not_initialized.name
   }
-  get isReady() { 
-    return this.status===Status.ready.name
+  get isInitializing() { 
+    return this.isNotInitialized && this.loading
+  }
+  get isNotInitialized() { 
+    return this.status===Status.not_initialized.name
   }
   get isCreated() { 
     return this.status===Status.created.name
+  }
+  get isCreating() { 
+    return this.isInitialized && this.loading
+  }
+  get isFinalizing() { 
+    return this.isCreated && this.loading
   }
   get isFinalized() { 
     return this.status===Status.final.name
@@ -147,35 +161,6 @@ export class Session {
   }
 
   /**
-   * Init the checkout session
-   */
-  init = async (gateway_id) => {
-    try {
-      if(!gateway_id)
-        throw new Error('no-gateway')
-
-      this._gateway_id = gateway_id
-      this._status = Status.init.name
-      const ctx = this._ctx
-      const sf = await ctx.store_fronts.byExported('main')
-      const sorted_shipping_methods = sf?.shipping_methods?.sort(
-        (a, b) => a.price-b.price
-      )
-      this._cart = ctx.cart.get()
-      this._shipping_methods = sorted_shipping_methods
-      this._status = Status.ready.name
-      this._checkout = undefined
-    } catch (e) {
-      console.error(e)
-      this._errors = [e]
-      throw this.errors
-    } finally {
-      this.notify_subscribers()
-    }
-
-  }
-
-  /**
    * @param {string} v 
    */
   _get_url = (v) => {
@@ -187,6 +172,66 @@ export class Session {
     return `${backend_entry}/${v}`
     // const HOST = process.env.NEXT_PUBLIC_BACKEND_HOST
     // return `${HOST}/${this._ctx.firebase.config.projectId}/us-central1/${v}`
+  }
+
+  _start_loading = () => {
+    this._errors = []
+    this._loading = true
+    this.notify_subscribers()
+  }
+
+  _end_loading = () => {
+    this._loading = false
+    this.notify_subscribers()
+  }
+
+  _throw_if_loading = () => {
+    if(this.loading)
+      throw new Error('checkout-loading-state')
+  }
+
+  reset = () => {
+    this._status = Status.not_initialized.name
+    this._checkout = undefined
+    this.notify_subscribers()
+  }
+
+  /**
+   * Init or reset the checkout session
+   */
+  init = async (gateway_id) => {
+    try {
+      this._throw_if_loading()
+      if(!gateway_id)
+        throw new Error('no-gateway')
+
+      if(this.isInitialized)
+        return
+
+      // 
+      this._gateway_id = gateway_id
+      this._status = Status.not_initialized.name
+      this._start_loading()
+      //
+
+      const ctx = this._ctx
+      const sf = await ctx.store_fronts.byExported('main')
+      const sorted_shipping_methods = sf?.shipping_methods?.sort(
+        (a, b) => a.price-b.price
+      )
+
+      this._cart = ctx.cart.get()
+      this._shipping_methods = sorted_shipping_methods
+      this._status = Status.initialized.name
+      this._checkout = undefined
+    } catch (e) {
+      console.error(e)
+      this._errors = [e]
+      throw this.errors
+    } finally {
+      this._end_loading()
+    }
+
   }
 
   /**
@@ -201,9 +246,11 @@ export class Session {
     async (user, address, shipping_method, coupons) => {
     
     try {
-      this._errors = []
-      if(!this.isReady)
-        throw Error('checkout-not-ready')
+      this._throw_if_loading()
+      this._start_loading()
+
+      if(!this.isInitialized)
+        throw Error('checkout-not-initialized')
 
       // validate input
       // test at least user email
@@ -234,7 +281,7 @@ export class Session {
         id: this.cart.id
       }
 
-      // console.log('checkout_body ', checkout_body)
+      console.log('checkout_body ', checkout_body)
 
       const response = await fetch(
         this._get_url('app/create-checkout'),
@@ -273,7 +320,7 @@ export class Session {
       this._errors = [...arr, ...this._errors]
       throw this.errors
     } finally {
-      this.notify_subscribers()
+      this._end_loading()
     }
 
   }
@@ -285,8 +332,12 @@ export class Session {
   finalizeCheckout = 
     async () => {
     try {
+      console.log('finalizeCheckout')
+      this._throw_if_loading()
       if(!this.isCreated)
         throw new Error('cannot-finalize')
+      
+      this._start_loading()
 
       const body = {
         checkoutId: this.checkout.id,
@@ -320,7 +371,7 @@ export class Session {
       this._errors = [...arr, this.errors]
       throw this.errors
     } finally {
-      this.notify_subscribers()
+      this._end_loading()
     }
       
   }
@@ -345,7 +396,7 @@ export default class Checkout {
 
   get session() {
     const s = this._session
-    const invalid = s===undefined || s?.isFinalized
+    const invalid = true //s===undefined || s?.isFinalized
     if(invalid) {
       this._session = new Session(this.context)
     }
