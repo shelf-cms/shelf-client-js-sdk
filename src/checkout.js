@@ -1,61 +1,7 @@
 import { ShelfSDK } from './index.js'
 import { Address, CartData, 
+  OrderData, 
   ShippingData, UserData } from './js-docs-types.js'
-
-/**
- * 
- * @typedef {object} EvoEntry
- * @property {DiscountData} discount discount data
- * @property {string} discount_code
- * @property {number} total_discount total discount at this stage
- * @property {number} quantity_undiscounted how many items are left to discount
- * @property {number} quantity_discounted how many items were discounted now
- * @property {number} subtotal running subtotal without shipping
- * @property {number} total running total
- * @property {LineItem[]} line_items available line items after discount
- * 
- * @typedef {object} CheckoutRequest
- * @property {LineItem[]} line_items
- * @property {string} id
- * @property {string} gateway_id
- * @property {ShippingData} shipping_method
- * @property {UserData} user 
- * @property {Address} address 
- * 
- * @typedef {object} ReserveResult
- * @property {number?} reserved_until
- * @property {AvailabilityReport?} report
- * @property {string} checkoutId
- * @property {LineItem[]} line_items
- * 
- * @typedef {object} DiscountContext
- * @property {EvoEntry[]} evo evolution of discounts applications
- * @property {string} uid user id
- * @property {ShippingData} shipping_method selected shipping method
- * @property {number} subtotal_undiscounted total of items price before discounts
- * @property {number} subtotal_discount total of items price after discounts
- * @property {number} subtotal subtotal_undiscounted - subtotal_discount
- * @property {number} total subtotal + shipping
- * @property {number} total_quantity total quantity of items in order
- * @property {DiscountError[]} errors
- * 
- * @typedef {object} CheckoutData
- * @property {ReserveResult} reserve items temporal reservation results
- * @property {DiscountContext} pricing pricing result
- * @property {object} payment_gateway everything about payment gateway
- * @property {number} createdAt
- * @property {boolean} status
- * @property {string} id
- * 
- * @typedef {object} FinalizeCheckoutResult
- * @property {string} orderId
- * 
- */
-export const CheckoutData = {}
-export const FinalizeCheckoutResult = {}
-export const DiscountContext = {}
-export const ReserveResult = {}
-export const CheckoutRequest = {}
 
 const isEmailValid = (value) => {
   let re = /\S+@\S+\.\S+/;
@@ -92,7 +38,7 @@ export class Session {
   _cart = undefined
   /**@type {string | undefined} */
   _orderId = undefined
-  /**@type {CheckoutData} */
+  /**@type {OrderData} */
   _checkout = undefined
   /**@type {ShippingData[]} */
   _shipping_methods = []
@@ -240,7 +186,7 @@ export class Session {
    * @param {Address} address 
    * @param {ShippingData} shipping_method 
    * @param {string[]} coupons
-   * @returns {CheckoutData}
+   * @returns {OrderData}
    */
   createCheckout = 
     async (user, address, shipping_method, coupons) => {
@@ -259,12 +205,12 @@ export class Session {
       
       // test address
       const validAddress = address?.city && address?.firstname && 
-                            address?.lastname && address?.street1 &&
-                            address?.postal_code
+                           address?.lastname && address?.street1 &&
+                           address?.postal_code
       if(!validAddress)
         throw Error('address-invalid')
 
-      /**@type {CheckoutRequest} */
+      /**@type {OrderData} */
       const checkout_body = {
         line_items: this.cart.line_items?.map(
           li => ({ 
@@ -273,10 +219,16 @@ export class Session {
             price: li.price ?? li?.data?.price 
           })
         ),
-        gateway_id: this._gateway_id,
-        coupons,
-        shipping_method,
-        user,
+        payment_gateway: {
+          gateway_id: this._gateway_id
+        },
+        coupons: coupons.map(
+          c => ({
+            code: c
+          })
+        ),
+        delivery: shipping_method,
+        contact: user,
         address,
         id: this.cart.id
       }
@@ -294,7 +246,7 @@ export class Session {
         }
       )
       
-      /**@type {CheckoutData} */
+      /**@type {OrderData} */
       const cd = await response.json()
 
       console.log('checkout ', cd)

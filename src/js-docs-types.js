@@ -38,12 +38,12 @@ export const ProductData = {}
  * @property {AttributeData[]} attributes
  * @property {string[]} tags
  * @property {number} updatedAt
+ * @property {number} createdAt
  * @property {string[]} media
  * @property {string} handle
  * @property {string} title
  * @property {string[]} search
  * @property {string} desc
- * @property {string} _published
  * 
  */
 export const CollectionData = {}
@@ -86,8 +86,7 @@ export const StorefrontData = {}
 /** 
  * @typedef {object} StorefrontExportData
  * @property {string} handle
- * @property {AttributeData[]} attributes
- * @property {CollectionData[]} collections
+ * @property {CollectionData} collections
  * @property {CollectionExportedData[]} exported_collections
  * @property {DiscountData[]} discounts
  * @property {ProductData[]} products
@@ -152,8 +151,7 @@ export const OrderDiscountExtra = {}
  * @typedef {object} BulkDiscountExtra
  * @property {number} fixed
  * @property {number} percent
- * @property {number} min
- * @property {number} max
+ * @property {number} qty
  * @property {boolean} recursive
  */
 export const BulkDiscountExtra = {}
@@ -177,6 +175,7 @@ export const Filter = {}
 /** 
  * @typedef {object} DiscountData
  * @property {object} info
+ * @property {AttributeData[]} attributes
  * @property {DiscountDetails} info.details
  * @property {Filter[]} info.filters
  * @property {DiscountApplicationEnum} application
@@ -240,6 +239,11 @@ export const FilterMetaEnum = {
   p_all: {
     id: 6, type:'product', 
     op: 'p-all', name: 'All Products'
+  },    
+  p_in_price_range: {
+    id: 7, type:'product', 
+    op: 'p_in_price_range', 
+    name: 'Product in Price range'
   },    
   o_subtotal_in_range: {
     id: 100, type:'order', 
@@ -355,6 +359,7 @@ export const UserData = {}
  * @property {string} name2
  * 
  */
+export const FulfillOptions = {}
 
 /** 
  * @typedef {object} PaymentOptions
@@ -363,6 +368,7 @@ export const UserData = {}
  * @property {string} name2
  * 
  */
+export const PaymentOptions = {}
 
 /** 
  * @enum {FulfillOptions} 
@@ -409,9 +415,40 @@ export const PaymentOptionsEnum = {
  * @property {string} id
  * @property {number} price
  * @property {number} qty
- * @property {boolean} stock_reserved
- * @property {ProductData} data */ 
+ * @property {number} stock_reserved
+ * @property {ProductData} data 
+ **/ 
 export const LineItem = {}
+
+/**
+ * @typedef {object} EvoEntry
+ * @property {DiscountData} discount discount data
+ * @property {string} discount_code
+ * @property {number} total_discount total discount at this stage
+ * @property {number} quantity_undiscounted how many items are left to discount
+ * @property {number} quantity_discounted how many items were discounted now
+ * @property {number} subtotal running subtotal without shipping
+ * @property {number} total running total
+ * @property {LineItem[]} line_items available line items after discount
+ * 
+ * @typedef {object} DiscountError
+ * @property {string} discount_code
+ * @property {string} message
+ * 
+ * 
+ * @typedef {object} PricingData
+ * @property {EvoEntry[]} evo
+ * @property {string} uid
+ * @property {ShippingData} shipping_method
+ * @property {number} subtotal_undiscounted total of items price before discounts
+ * @property {number} subtotal_discount total of items price after discounts
+ * @property {number} subtotal subtotal_undiscounted - subtotal_discount
+ * @property {number} total subtotal + shipping
+ * @property {number} total_quantity
+ * @property {DiscountError[]} errors
+ */
+export const PricingData = {}
+export const EvoEntry = {}
 
 /** 
  * @typedef {object} OrderData
@@ -424,7 +461,6 @@ export const LineItem = {}
  * @property {string} contact.email
  * @property {string} contact.uid
  * @property {LineItem[]} line_items
- * @property {number} total_price
  * @property {string} id
  * @property {number} createdAt
  * @property {Address} address
@@ -433,7 +469,10 @@ export const LineItem = {}
  * @property {object} delivery
  * @property {string} delivery.name
  * @property {number} delivery.price
- * @property {string[]} discounts
+ * @property {DiscountData[]} coupons
+ * @property {PricingData} pricing
+ * @property {object} payment_gateway
+ * @property {string} payment_gateway.gateway_id
  */
 export const OrderData = {}
 
@@ -460,9 +499,15 @@ export const PostData = {}
  * @property {string} id
  * @property {number} price
  * @property {number} updatedAt
+ * @property {number} createdAt
  * @property {string} name
+ * @property {string} desc
+ * @property {string[]} media
+ * @property {string[]} tags
+ * @property {AttributeData[]} attributes
  */
 export const ShippingData = {}
+
 
 // stats
 
@@ -472,6 +517,7 @@ export const ShippingData = {}
  * @property {string} title product title
  * @property {number} val count of product
  */
+export const MovingStatsProduct = {}
 
 /**
  * @typedef {object} MovingStatsDay
@@ -484,12 +530,14 @@ export const ShippingData = {}
  * @property {Object.<string, number>} tags a map between tag name to count
  * @property {Object.<string, MovingStatsProduct>} products a map between product handle to product stat data
  */ 
+export const MovingStatsDay = {}
 
 /** 
  * @typedef {object} MovingStatsInfo
  * @property {number} maxOrderTime latest order time, that was recorded (used for optimization)
  * @property {Object.<number, MovingStatsDay>} days map start of days to stats
  */
+export const MovingStatsInfo = {}
 
 
 /** 
@@ -499,9 +547,7 @@ export const ShippingData = {}
  * @property {number} toDay to an end of day (millis)
  * @property {number} updatedAt when updated (millis)
  */
-
-
-// cart
+export const MovingStatsData = {}
 
 /** 
  * @typedef {object} CartData
