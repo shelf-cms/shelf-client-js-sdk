@@ -1,5 +1,6 @@
 import { ShelfSDK } from './index.js'
 import { Address, CartData, 
+  CheckoutStatusEnum, 
   OrderData, 
   ShippingData, UserData } from './js-docs-types.js'
 
@@ -24,7 +25,9 @@ export const Status = {
   initialized : { name: 'initialized' },
   // ready : { name: 'ready' },
   created : { name: 'created' },
-  final : { name: 'final' },
+  requires_action : { name: 'requires_action' },
+  complete : { name: 'complete' },
+  failed : { name: 'failed' },
 }
 
 export class Session {
@@ -36,8 +39,6 @@ export class Session {
   _errors = []
   /**@type {CartData} */
   _cart = undefined
-  /**@type {string | undefined} */
-  _orderId = undefined
   /**@type {OrderData} */
   _checkout = undefined
   /**@type {ShippingData[]} */
@@ -70,9 +71,6 @@ export class Session {
   get shipping_methods() {
     return this._shipping_methods
   }
-  get orderId() {
-    return this._orderId
-  }
   get isInitialized() { 
     return this.status!==Status.not_initialized.name
   }
@@ -88,11 +86,17 @@ export class Session {
   get isCreating() { 
     return this.isInitialized && this.loading
   }
-  get isFinalizing() { 
+  get isCompleting() { 
     return this.isCreated && this.loading
   }
-  get isFinalized() { 
-    return this.status===Status.final.name
+  get isComplete() { 
+    return this.status===Status.complete.name
+  }
+  get requiresAction() { 
+    return this.status===Status.requires_action.name
+  }
+  get isFailed() { 
+    return this.status===Status.failed.name
   }
 
   notify_subscribers = () => {
@@ -236,7 +240,7 @@ export class Session {
       console.log('checkout_body ', checkout_body)
 
       const response = await fetch(
-        this._get_url('app/create-checkout'),
+        this._get_url('app/checkouts/create'),
         {
           method: 'post',
           headers: {
@@ -254,12 +258,8 @@ export class Session {
         this._checkout = cd
 
         // error from the server
-        if(!cd.status) {
-          if(cd?.reserve?.report?.length)
-            throw cd?.reserve?.report
-          throw Error('error')
-        }
-
+        if(cd?.validation?.length)
+          throw cd?.validation
       } else {
         throw cd?.error
       }
@@ -281,8 +281,11 @@ export class Session {
    * 
    * @returns {FinalizeCheckoutResult}
    */
-  finalizeCheckout = 
-    async () => {
+  completeCheckout = 
+    /**
+     * @param {object} gateway_payload any payload to the payment gateway
+     */
+    async (gateway_payload) => {
     try {
       console.log('finalizeCheckout')
       this._throw_if_loading()
@@ -292,10 +295,11 @@ export class Session {
       this._start_loading()
 
       const body = {
-        checkoutId: this.checkout.id,
+        id: this.checkout.id,
+        payment_gateway: gateway_payload
       }
       const response = await fetch(
-        this._get_url('app/pay'), 
+        this._get_url('app/checkouts/complete'), 
         {
           method: 'POST',
           headers: {
@@ -305,16 +309,16 @@ export class Session {
         }
       )
 
-      /**@type {FinalizeCheckoutResult} */
+      /**@type {OrderData} */
       const json = await response.json()
 
       if(!response.ok) {
         throw json?.error
       }
 
-      console.log('capture ', json)
-      this._status = Status.final.name
-      this._orderId = json.orderId
+      console.log('complete json ', json)
+      this._checkout = json
+      this._status = json.checkout.status.name
       this._ctx.cart.reset()
       return json
     } catch (e) {

@@ -1,4 +1,12 @@
 
+/**
+ * @typedef {object} ShelfAdminConfig
+ * @property {string} apiKey
+ * @property {string} projectId
+ * @property {string} storageBucket
+ * @property {string} backend
+ */
+
 // misc
 
 /**
@@ -73,6 +81,7 @@ export const CollectionExportedData = {}
  * @property {string} _published
  * @property {string[]} media
  * @property {string[]} products
+ * @property {string[]} posts
  * @property {string[]} shipping_methods
  * @property {number} createdAt
  * @property {string[]} search
@@ -90,6 +99,7 @@ export const StorefrontData = {}
  * @property {CollectionExportedData[]} exported_collections
  * @property {DiscountData[]} discounts
  * @property {ProductData[]} products
+ * @property {PostData[]} posts
  * @property {ShippingData[]} shipping_methods
  * @property {string} title
  * @property {string} _published
@@ -371,6 +381,28 @@ export const FulfillOptions = {}
 export const PaymentOptions = {}
 
 /** 
+ * @typedef {object} CheckoutStatus
+ * @property {number} id
+ * @property {string} name
+ * 
+ * @enum {CheckoutStatus} 
+ */
+export const CheckoutStatusEnum = {
+  created: { 
+    id: 0, name: 'created'
+  },
+  requires_action: { 
+    id: 1, name: 'requires_action'
+  },
+  failed: { 
+    id: 2, name: 'failed'
+  },
+  complete: { 
+    id: 3, name: 'complete'
+  },
+}
+
+/** 
  * @enum {FulfillOptions} 
  */
 export const FulfillOptionsEnum = {
@@ -380,11 +412,14 @@ export const FulfillOptionsEnum = {
   processing: { 
     id: 1, name2: 'processing' ,name: 'Processing (Stock Reserved)'
   },
+  shipped: { 
+    id: 2, name2: 'shipped' ,name: 'Shipped'
+  },
   fulfilled: { 
-    id: 2, name2: 'fulfilled', name: 'Fulfilled' 
+    id: 3, name2: 'fulfilled', name: 'Fulfilled' 
   },
   cancelled: { 
-    id: 3, name2: 'cancelled', name: 'Cancelled (Stock returned)' 
+    id: 4, name2: 'cancelled', name: 'Cancelled (Stock returned)' 
   }
 }
 
@@ -392,20 +427,32 @@ export const FulfillOptionsEnum = {
  * @enum {PaymentOptions} 
  */
 export const PaymentOptionsEnum = {
-  paid: { 
-    id: 0, name: 'Paid', name2: 'paid'
-  },
   unpaid: { 
-    id: 1, name: 'Unpaid', name2: 'unpaid'
+    id: 0, name: 'Unpaid', name2: 'unpaid'
+  },
+  authorized: { 
+    id: 1, name: 'Authorized', name2: 'authorized'
+  },
+  captured: { 
+    id: 2, name: 'Captured', name2: 'captured'
+  },
+  requires_auth: { 
+    id: 3, name: 'Requires Authentication', name2: 'requires authentication'
+  },
+  voided: { 
+    id: 4, name: 'Voided', name2: 'voided'
+  },
+  failed: { 
+    id: 5, name: 'Failed', name2: 'failed'
   },
   partially_paid: { 
-    id: 2, name: 'Partially paid', name2: 'partially paid' 
+    id: 6, name: 'Partially paid', name2: 'partially paid' 
   },
   refunded: { 
-    id: 3, name: 'Refunded', name2: 'refunded' 
+    id: 7, name: 'Refunded', name2: 'refunded' 
   },
   partially_refunded: { 
-    id: 4, name: 'Partially Refunded', name2: 'partially refunded' 
+    id: 8, name: 'Partially Refunded', name2: 'partially refunded' 
   },
 }
 
@@ -450,10 +497,22 @@ export const LineItem = {}
 export const PricingData = {}
 export const EvoEntry = {}
 
+/**
+ * @typedef {object} ValidationEntry
+ * @property {string} id
+ * @property {string} title
+ * @property {'out-of-stock' | 'not-enough-stock' | 'some-stock-is-on-hold'} message
+ */ 
+
+/**@type {ValidationEntry} */
+export const ValidationEntry = {}
+
 /** 
  * @typedef {object} OrderData
  * @property {string[]} search
  * @property {object} status
+ * @property {object} checkout
+ * @property {CheckoutStatus} checkout.status
  * @property {PaymentOptions} status.payment
  * @property {FulfillOptions} status.fulfillment
  * @property {object} contact
@@ -466,13 +525,14 @@ export const EvoEntry = {}
  * @property {Address} address
  * @property {number} updatedAt
  * @property {string} notes
- * @property {object} delivery
- * @property {string} delivery.name
- * @property {number} delivery.price
+ * @property {ShippingData} delivery
  * @property {DiscountData[]} coupons
  * @property {PricingData} pricing
+ * @property {ValidationEntry[]} validation
  * @property {object} payment_gateway
  * @property {string} payment_gateway.gateway_id
+ * @property {object} payment_gateway.on_checkout_create
+ * @property {object} payment_gateway.on_checkout_complete
  */
 export const OrderData = {}
 
@@ -508,6 +568,18 @@ export const PostData = {}
  */
 export const ShippingData = {}
 
+// payment gateway config
+
+/** 
+ * @typedef {object} PaymentGatewayData
+ * @property {string} title
+ * @property {number} id
+ * @property {number} gateway_id
+ * @property {number} updatedAt
+ * @property {number} createdAt
+ * @property {AttributeData[]} attributes
+ */
+export const PaymentGatewayData = {}
 
 // stats
 
