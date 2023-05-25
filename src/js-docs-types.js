@@ -35,6 +35,7 @@ export const AttributeData = {}
  * @property {string} title
  * @property {number} createdAt
  * @property {number} compareAtPrice
+ * @property {Object.<string, DiscountData>} discounts discounts we know apply to this product
  */
 export const ProductData = {}
 
@@ -185,9 +186,9 @@ export const Filter = {}
 /** 
  * @typedef {object} DiscountData
  * @property {object} info
- * @property {AttributeData[]} attributes
  * @property {DiscountDetails} info.details
  * @property {Filter[]} info.filters
+ * @property {AttributeData[]} attributes
  * @property {DiscountApplicationEnum} application
  * @property {number} createdAt
  * @property {string[]} search
@@ -381,11 +382,11 @@ export const FulfillOptions = {}
 export const PaymentOptions = {}
 
 /** 
- * @typedef {object} CheckoutStatus
+ * @typedef {object} CheckoutStatusOptions
  * @property {number} id
  * @property {string} name
  * 
- * @enum {CheckoutStatus} 
+ * @enum {CheckoutStatusOptions} 
  */
 export const CheckoutStatusEnum = {
   created: { 
@@ -507,12 +508,22 @@ export const EvoEntry = {}
 /**@type {ValidationEntry} */
 export const ValidationEntry = {}
 
+/**
+ * @typedef {object} OrderPaymentGatewayData
+ * @property {string} gateway_id
+ * @property {object} on_checkout_create
+ * @property {object} on_checkout_complete
+ * @property {object} latest_status
+ */
+/**@type {OrderPaymentGatewayData} */
+export const OrderPaymentGateway = {}
+
 /** 
+ * 
  * @typedef {object} OrderData
  * @property {string[]} search
  * @property {object} status
- * @property {object} checkout
- * @property {CheckoutStatus} checkout.status
+ * @property {CheckoutStatusOptions} status.checkout
  * @property {PaymentOptions} status.payment
  * @property {FulfillOptions} status.fulfillment
  * @property {object} contact
@@ -529,10 +540,9 @@ export const ValidationEntry = {}
  * @property {DiscountData[]} coupons
  * @property {PricingData} pricing
  * @property {ValidationEntry[]} validation
- * @property {object} payment_gateway
- * @property {string} payment_gateway.gateway_id
- * @property {object} payment_gateway.on_checkout_create
- * @property {object} payment_gateway.on_checkout_complete
+ * @property {OrderPaymentGatewayData} payment_gateway
+ * @property {string[]} tags
+ * @property {AttributeData[]} attributes
  */
 export const OrderData = {}
 
@@ -580,6 +590,20 @@ export const ShippingData = {}
  * @property {AttributeData[]} attributes
  */
 export const PaymentGatewayData = {}
+
+// payment gateway config
+
+/** 
+ * @typedef {object} SettingsData
+ * @property {object} backend
+ * @property {string} backend.url
+ * @property {string} backend.apiKey
+ * @property {string} backend.secret
+ * @property {number} updatedAt
+ * @property {number} createdAt
+ * @property {AttributeData[]} attributes
+ */
+export const SettingsData = {}
 
 // stats
 
