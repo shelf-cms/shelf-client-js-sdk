@@ -120,8 +120,6 @@ export class Session {
     if(v.startsWith('/'))
       v = v.slice(1)
     return `${backend_entry}/${v}`
-    // const HOST = process.env.NEXT_PUBLIC_BACKEND_HOST
-    // return `${HOST}/${this._ctx.firebase.config.projectId}/us-central1/${v}`
   }
 
   _start_loading = () => {
@@ -240,7 +238,7 @@ export class Session {
       console.log('checkout_body ', checkout_body)
 
       const response = await fetch(
-        this._get_url('app/checkouts/create'),
+        this._get_url('checkouts/create'),
         {
           method: 'post',
           headers: {
@@ -299,7 +297,7 @@ export class Session {
         payment_gateway: gateway_payload
       }
       const response = await fetch(
-        this._get_url('app/checkouts/complete'), 
+        this._get_url('checkouts/complete'), 
         {
           method: 'POST',
           headers: {
