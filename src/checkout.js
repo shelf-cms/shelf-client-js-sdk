@@ -316,7 +316,7 @@ export class Session {
 
       console.log('complete json ', json)
       this._checkout = json
-      this._status = json.checkout.status.name
+      this._status = json.status.checkout.name
       this._ctx.cart.reset()
       return json
     } catch (e) {
