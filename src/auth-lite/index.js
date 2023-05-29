@@ -385,18 +385,19 @@ export default class Auth {
 	 * @param {string} [email] When the `requestType` is `PASSWORD_RESET` or `EMAIL_SIGNIN` you need to provide an email address.
 	 * @returns {Promise}
 	 */
-	async sendOobCode(requestType, email) {
+	async sendOobCode(requestType, email, continueUrl) {
 		const verifyEmail = requestType === 'VERIFY_EMAIL';
 		if (verifyEmail) {
 			await this.enforceAuth();
 			email = this.user.email;
 		}
 
-		return void this.api('sendOobCode', {
+		return this.api('sendOobCode', {
 			idToken: verifyEmail ? this.user.tokenManager.idToken : undefined,
 			requestType,
 			email,
-			continueUrl: this.redirectUri + `?email=${email}`
+			// continueUrl: this.redirectUri + `?email=${email}`
+			continueUrl
 		});
 	}
 

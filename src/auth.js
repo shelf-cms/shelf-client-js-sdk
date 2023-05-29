@@ -81,6 +81,14 @@ export default class Auth {
   }
 
   /**
+   * send reset password email
+   * @param {string} email 
+   */
+  sendResetPassword = async (email, continueUrl) => {
+    return this.auth.sendOobCode('PASSWORD_RESET', email, continueUrl)
+  }
+
+  /**
    * 
    * @param {string} email 
    * @param {string} password 
