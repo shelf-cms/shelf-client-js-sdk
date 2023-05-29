@@ -1,6 +1,7 @@
 import { ShelfSDK } from './index.js'
 import { Address, CartData, 
   CheckoutStatusEnum, 
+  DiscountData, 
   OrderData, 
   ShippingData, UserData } from './js-docs-types.js'
 
@@ -187,11 +188,11 @@ export class Session {
    * @param {UserData} user 
    * @param {Address} address 
    * @param {ShippingData} shipping_method 
-   * @param {string[]} coupons
+   * @param {DiscountData[]} coupons
    * @returns {OrderData}
    */
   createCheckout = 
-    async (user, address, shipping_method, coupons) => {
+    async (user, address, shipping_method, coupons=[]) => {
     
     try {
       this._throw_if_loading()
@@ -224,11 +225,7 @@ export class Session {
         payment_gateway: {
           gateway_id: this._gateway_id
         },
-        coupons: coupons.map(
-          c => ({
-            code: c
-          })
-        ),
+        coupons,
         delivery: shipping_method,
         contact: user,
         address,
