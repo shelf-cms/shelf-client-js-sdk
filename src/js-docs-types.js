@@ -9,11 +9,48 @@
 
 // misc
 
+// notifications
+/**
+ * 
+ * @typedef {object} NotificationActionRouteParams route inside shelf 
+ * @property {string} collection
+ * @property {string} document
+ * 
+ * @typedef {object} NotificationActionUrlParams for actions of type 'url'
+ * @property {boolean} new_window
+ * @property {string} url
+ * 
+ * @typedef {'route' | 'url'} NotificationActionType 'route' means routing inside shelfm 'url' is linking to a url
+ * 
+ * @typedef {object} NotificationAction
+ * @property {string} name
+ * @property {NotificationActionType} type
+ * @property {NotificationActionRouteParams | NotificationActionUrlParams} params
+ * 
+ * @typedef {object} NotificationData
+ * @property {number} updatedAt (required)
+ * @property {string} message
+ * @property {string[]} search (required) search index 
+ * @property {string} [author]
+ * @property {NotificationAction[]} actions
+ */
+/**@type {NotificationAction} */
+export const NotificationAction = {}
+/**@type {NotificationData} */
+export const NotificationData = {}
+/**@type {NotificationActionType} */
+export const NotificationActionType = {}
+/**@type {NotificationActionRouteParams} */
+export const NotificationActionRouteParams = {}
+/**@type {NotificationActionUrlParams} */
+export const NotificationActionUrlParams = {}
+
 /**
  * @typedef {object} AttributeData
  * @property {string} key
  * @property {string} val
  */
+/**@type {AttributeData} */
 export const AttributeData = {}
 
 
@@ -35,7 +72,7 @@ export const AttributeData = {}
  * @property {string} title
  * @property {number} createdAt
  * @property {number} compareAtPrice
- * @property {Object.<string, DiscountData>} discounts discounts we know apply to this product
+ * @property {Map<string, DiscountData>} discounts discounts we know apply to this product
  */
 export const ProductData = {}
 
@@ -408,7 +445,7 @@ export const CheckoutStatusEnum = {
  */
 export const FulfillOptionsEnum = {
   draft: { 
-    id: 0, name2: 'drafts', name: 'Draft'
+    id: 0, name2: 'draft', name: 'Draft'
   },
   processing: { 
     id: 1, name2: 'processing' ,name: 'Processing (Stock Reserved)'
