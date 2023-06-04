@@ -656,7 +656,6 @@ export const MovingStatsProduct = {}
  * @typedef {object} MovingStatsDay
  * @property {number} total total income in day
  * @property {number} orders total orders in day
- * @property {number} orders total orders in day
  * @property {number} day start of day in UTC millis
  * @property {Object.<string, number>} discounts a map between discount code to count
  * @property {Object.<string, number>} collections a map between collection handle to count
