@@ -289,12 +289,9 @@ export class Session {
       
       this._start_loading()
 
-      const body = {
-        id: this.checkout.id,
-        payment_gateway: gateway_payload
-      }
+      const body = gateway_payload;
       const response = await fetch(
-        this._get_url('checkouts/complete'), 
+        this._get_url(`checkouts/${this.checkout.id}/complete`), 
         {
           method: 'POST',
           headers: {
