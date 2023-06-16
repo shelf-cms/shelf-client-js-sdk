@@ -1,78 +1,23 @@
 
-/**
- * @typedef {object} ShelfAdminConfig
- * @property {string} apiKey
- * @property {string} projectId
- * @property {string} storageBucket
- * @property {string} backend
- */
-
-// misc
-
-// notifications
-/**
- * 
- * @typedef {object} NotificationActionRouteParams route inside shelf 
- * @property {string} collection
- * @property {string} document
- * 
- * @typedef {object} NotificationActionUrlParams for actions of type 'url'
- * @property {boolean} new_window
- * @property {string} url
- * 
- * @typedef {'route' | 'url'} NotificationActionType 'route' means routing inside shelfm 'url' is linking to a url
- * 
- * @typedef {object} NotificationAction
- * @property {string} name
- * @property {NotificationActionType} type
- * @property {NotificationActionRouteParams | NotificationActionUrlParams} params
- * 
- * @typedef {object} NotificationData
- * @property {number} updatedAt (required)
- * @property {string} message
- * @property {string[]} search (required) search index 
- * @property {string} [author]
- * @property {NotificationAction[]} actions
- */
-/**@type {NotificationAction} */
-export const NotificationAction = {}
-/**@type {NotificationData} */
-export const NotificationData = {}
-/**@type {NotificationActionType} */
-export const NotificationActionType = {}
-/**@type {NotificationActionRouteParams} */
-export const NotificationActionRouteParams = {}
-/**@type {NotificationActionUrlParams} */
-export const NotificationActionUrlParams = {}
-
-/**
- * @typedef {object} AttributeData
- * @property {string} key
- * @property {string} val
- */
-/**@type {AttributeData} */
-export const AttributeData = {}
-
-
 // products
 
 /** 
- * @typedef {object} ProductData
- * @property {AttributeData[]} attributes
- * @property {string[]} collections
- * @property {string} video
- * @property {number} price
+ * @typedef {object} ProductData Product scheme
+ * @property {string[]} collections handles of collection this product belongs to
+ * @property {string} video video media url
+ * @property {number} price price
  * @property {string} handle a unique readable identifier
- * @property {string[]} search
- * @property {string[]} tags
- * @property {string} desc
- * @property {string[]} media
- * @property {number} updatedAt
- * @property {number} qty
- * @property {string} title
- * @property {number} createdAt
- * @property {number} compareAtPrice
- * @property {Map<string, DiscountData>} discounts discounts we know apply to this product
+ * @property {number} qty integer stock quantity
+ * @property {number} compareAtPrice compare at price point
+ * @property {Map<string, DiscountData>} discounts discounts we know were applied to this product
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string} title title of collection
+ * @property {string[]} search simple search index
+ * @property {string} desc description
  */
 export const ProductData = {}
 
@@ -80,174 +25,181 @@ export const ProductData = {}
 // collections
 
 /** 
- * @typedef {object} CollectionData
- * @property {AttributeData[]} attributes
- * @property {string[]} tags
- * @property {number} updatedAt
- * @property {number} createdAt
- * @property {string[]} media
- * @property {string} handle
- * @property {string} title
- * @property {string[]} search
- * @property {string} desc
+ * @typedef {object} CollectionData Collection of products
+ * @property {string} handle unique handle
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string} title title of collection
+ * @property {string[]} search simple search index
+ * @property {string} desc description
  * 
  */
 export const CollectionData = {}
 
+
 /** 
- * @typedef {object} ADD_PRODUCTS
- * @property {ProductData[]} products blah
+ * @typedef {object} CollectionExportedData Exported collection of products
+ * @property {string} handle unique handle
+ * @property {ProductData[]} products products in collection
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string} title title of collection
+ * @property {string[]} search simple search index
+ * @property {string} desc description
  * 
- * 
- * @typedef { CollectionData & ADD_PRODUCTS} CollectionExportedData
  */
 export const CollectionExportedData = {}
 
 // store-front
 
 /** 
- * @typedef {object} StorefrontData
- * @property {string} handle
- * @property {AttributeData[]} attributes
- * @property {string[]} collections
- * @property {object} exported_collections
- * @property {string[]} exported_collections.items
- * @property {object} exported_collections.info
- * @property {number} exported_collections.info.exportProductsCount
- * @property {string[]} discounts
- * @property {string} title
- * @property {string} _published
- * @property {string[]} media
- * @property {string[]} products
- * @property {string[]} posts
- * @property {string[]} shipping_methods
- * @property {number} createdAt
- * @property {string[]} search
- * @property {number} updatedAt
- * @property {string} desc
- * @property {string} video
- * @property {string[]} tags
+ * @typedef {object} StorefrontData Storefront scheme
+ * @property {string} handle unique handle
+ * @property {string[]} collections list of collections handles
+ * @property {string[]} discounts list of discount codes
+ * @property {string[]} products list of products handles
+ * @property {string[]} posts list of posts handles
+ * @property {string[]} shipping_methods list of shipping methods handles
+ * @property {string} video video url
+ * @property {string} _published exported storefront url
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string} title title of collection
+ * @property {string[]} search simple search index
+ * @property {string} desc description
  */
 export const StorefrontData = {}
 
 /** 
- * @typedef {object} StorefrontExportData
- * @property {string} handle
- * @property {CollectionData} collections
- * @property {CollectionExportedData[]} exported_collections
- * @property {DiscountData[]} discounts
- * @property {ProductData[]} products
- * @property {PostData[]} posts
- * @property {ShippingData[]} shipping_methods
- * @property {string} title
- * @property {string} _published
- * @property {string[]} media
- * @property {number} createdAt
- * @property {string[]} search
- * @property {number} updatedAt
- * @property {string} desc
- * @property {string} video
- * @property {string[]} tags
+ * @typedef {object} StorefrontExportData Exported Storefront scheme
+ * @property {string} handle unique handle
+ * @property {CollectionData[]} collections list of collections
+ * @property {DiscountData[]} discounts list of discount
+ * @property {ProductData[]} products list of products 
+ * @property {PostData[]} posts list of posts 
+ * @property {ShippingData[]} shipping_methods list of shipping methods
+ * @property {string} video video url
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string} title title of collection
+ * @property {string[]} search simple search index
+ * @property {string} desc description
  */
 export const StorefrontExportData = {}
 
 
 // discounts
+
 /** 
- * @typedef {object} DiscountApplication 
- * @property {number} id unique identifier for filter
- * @property {string} name readable short name
+ * @typedef {object} DiscountData Discount scheme
+ * @property {object} info details and filters of the discount
+ * @property {DiscountDetails} info.details discount details
+ * @property {Filter[]} info.filters list of discount filter
+ * @property {DiscountApplication} application discount application (automatic and coupons)
+ * @property {string} code a unique readable discount code
+ * @property {boolean} enabled is the discount enabled
+ * @property {number} order the order in which to apply the discounts stack (priority)
+ * @property {string} _published the collection handle that contains the applicable discount products
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string} title title
+ * @property {string[]} search simple search index
+ * @property {string} desc description
+ */
+export const DiscountData = {}
+
+/** 
+ * @typedef {object} DiscountApplication Discounts can be manual(coupon) or automatic types, see <a href='#DiscountApplicationEnum'>#DiscountApplicationEnum</a> 
+ * @property {number} id 0 = Automatic, 1 = Manual
+ * @property {'Automatic' | 'Manual'} name printable name
+ * @property {'automatic' | 'manual'} name2 id name
  * 
  */
 export const DiscountApplication = {}
 
+/** 
+ * @typedef {object} Filter Discount filter scheme
+ * @property {FilterMeta} meta meta data related to identifying the filter
+ * @property {string[]|object} value the filter params
+ * @property {number} value.from 
+ * @property {number} value.to
+ */
+export const Filter = {}
+
+
 /**
- * @typedef {object} FilterMeta 
- * @property {number} id unique identifier for filter
- * @property {'product'|'order'} type product/order class
- * @property {string} op operation identifier
- * @property {string} name readable short name
+ * @typedef {object} FilterMeta Filter meta data, see <a href='#FilterMetaEnum'>#FilterMetaEnum</a> 
+ * @property {number} id unique identifier for filter type
+ * @property {'product' | 'order'} type product or order filter
+ * @property {'p-in-collections' | 'p-not-in-collections' | 'p-in-handles' | 'p-not-in-handles' | 'p-in-tags' | 'p-not-in-tags' | 'p-all' | 'p_in_price_range' | 'o-subtotal-in-range' | 'o-items-count-in-range' | 'o-date-in-range' | 'o_has_customer'} op operation name id
+ * @property {string} name printable name
  * 
  */
 export const FilterMeta = {}
 
 /** 
- * @typedef {object} DiscountMeta 
- * @property {number} id unique identifier for filter
- * @property {string} type textual identifier
- * @property {string} name readable short name
+ * @typedef {object} DiscountDetails The details of how to apply a discount. The type of discount and it's params
+ * @property {DiscountMeta} meta metadata to identify the type of discount
+ * @property {RegularDiscountExtra|OrderDiscountExtra|BulkDiscountExtra} extra extra parameters of the specific discount type
+ */
+export const DiscountDetails = {}
+
+
+/** 
+ * @typedef {object} DiscountMeta Discount meta data, see <a href='#DiscountMetaEnum'>#DiscountMetaEnum</a> 
+ * @property {0 | 1 | 2 | 3} id unique identifier of discount type (bulk, regular, order)
+ * @property {'regular' | 'bulk' | 'buy_x_get_y' | 'order'} type textual identifier
+ * @property {string} name printable name
  * 
  */
 export const DiscountMeta = {}
 
 /** 
- * @typedef {object} RegularDiscountExtra
- * @property {number} fixed
- * @property {number} percent
+ * @typedef {object} RegularDiscountExtra Parameters of a regular discount
+ * @property {number} fixed fixed price addition
+ * @property {number} percent percents off
  */
 export const RegularDiscountExtra = {}
 
 /** 
- * @typedef {object} OrderDiscountExtra
- * @property {number} fixed
- * @property {number} percent
- * @property {boolean} free_shipping
+ * @typedef {object} OrderDiscountExtra Parameters of order discount
+ * @property {number} fixed fixed price addition
+ * @property {number} percent percents off
+ * @property {boolean} free_shipping do we have free shipping ?
  */
 export const OrderDiscountExtra = {}
 
 /** 
- * @typedef {object} BulkDiscountExtra
- * @property {number} fixed
- * @property {number} percent
- * @property {number} qty
- * @property {boolean} recursive
+ * @typedef {object} BulkDiscountExtra Parameters of bulk discount
+ * @property {number} fixed fixed price addition
+ * @property {number} percent percents off
+ * @property {number} qty the integer quantity for which the discount is given
+ * @property {boolean} recursive apply the discount as many times as possible
  */
 export const BulkDiscountExtra = {}
-
-/** 
- * @typedef {object} DiscountDetails
- * @property {DiscountMetaEnum} meta
- * @property {RegularDiscountExtra|OrderDiscountExtra|BulkDiscountExtra} info.discount.extra
- */
-export const DiscountDetails = {}
-
-/** 
- * @typedef {object} Filter
- * @property {FilterMeta} meta meta data related to identifying the filter
- * @property {string[]|object} value
- * @property {number} value.from
- * @property {number} value.to
- */
-export const Filter = {}
-
-/** 
- * @typedef {object} DiscountData
- * @property {object} info
- * @property {DiscountDetails} info.details
- * @property {Filter[]} info.filters
- * @property {AttributeData[]} attributes
- * @property {DiscountApplicationEnum} application
- * @property {number} createdAt
- * @property {string[]} search
- * @property {number} updatedAt
- * @property {string[]} media
- * @property {string} code a unique readable code
- * @property {boolean} enabled
- * @property {number} order
- * @property {string} title
- * @property {string} _published
- * @property {string[]} tags
- * @property {string} desc
- */
-export const DiscountData = {}
 
 
 /** 
  * @enum {DiscountApplication} 
  */
 export const DiscountApplicationEnum = {
-  Auto:   { id: 0, name: 'Automatic'},
-  Manual: { id: 1, name: 'Manual'},
+  Auto:   { id: 0, name: 'Automatic', name2: 'automatic'},
+  Manual: { id: 1, name: 'Manual', name2: 'manual'},
 }
 
 /**
@@ -342,58 +294,66 @@ export const DiscountMetaEnum = {
 // images
 
 /** 
- * @typedef {object} ImageData
- * @property {string} handle
- * @property {string} name
- * @property {string} url
- * @property {string[]} search
- * @property {string[]} usage
- * @property {number} updatedAt
+ * @typedef {object} ImageData Image scheme
+ * @property {string} handle unique handle
+ * @property {string} name name
+ * @property {string} url it's url
+ * @property {string[]} usage which collections referenced this image
+ * @property {string[]} search simple searcg index
+ * @property {number} updatedAt update time millis UTC
  */
 export const ImageData = {}
+
+/**
+ * @typedef {object} AttributeData Attributes are key-value strings, that you can attach to almost any document. They allow you to customize things
+ * @property {string} key key
+ * @property {string} val value
+ */
+/**@type {AttributeData} */
+export const AttributeData = {}
 
 // tags
 
 /** 
- * @typedef {object} TagData
- * @property {string[]} values
- * @property {string[]} search
- * @property {number} updatedAt
- * @property {string} name
- * @property {number} createdAt
- * @property {string} desc
+ * @typedef {object} TagData A Tag is composed of a key and many values. This is helpful for creating client side filtering
+ * @property {string[]} values list of values
+ * @property {string} name the key
+ * @property {string} desc rich description
+ * @property {string[]} search simple search index
+ * @property {number} createdAt create time millis UTC
+ * @property {number} updatedAt update time millis UTC
  */
 export const TagData = {}
 
 // users
 
 /** 
- * @typedef {object} Address
- * @property {string} firstname
- * @property {string} lastname
- * @property {string} company
- * @property {string} street1
- * @property {string} street2
- * @property {string} city
- * @property {string} country
- * @property {string} state
- * @property {string} zip_code
- * @property {string} postal_code
+ * @typedef {object} Address Addresses are used in customer info and orders
+ * @property {string} firstname first name of recipient
+ * @property {string} lastname last name of recipient
+ * @property {string} company optional company name of recipient
+ * @property {string} street1 street address 1
+ * @property {string} street2 street address 2
+ * @property {string} city city
+ * @property {string} country country
+ * @property {string} state state
+ * @property {string} zip_code zip code
+ * @property {string} postal_code postal code
  */
 export const Address = {}
 
 /** 
- * @typedef {object} UserData
- * @property {string} lastname
- * @property {string} firstname
- * @property {number} updatedAt
- * @property {string} email
- * @property {string[]} search
- * @property {number} createdAt
- * @property {Address} address
- * @property {string} uid authentication user id
- * @property {string} phone_number
- * @property {string[]} tags
+ * @typedef {object} UserData Customer info
+ * @property {string} firstname first name
+ * @property {string} lastname last name
+ * @property {string} email email address
+ * @property {string} phone_number phone number
+ * @property {Address} address address info
+ * @property {string} uid firebase authentication user id
+ * @property {string[]} tags list of tags , example ['likes_games', 'subscribed_false', ...]
+ * @property {string[]} search simple search index
+ * @property {number} createdAt create time millis UTC
+ * @property {number} updatedAt update time millis UTC
  */
 export const UserData = {}
 
@@ -401,42 +361,72 @@ export const UserData = {}
 // orders
 
 /** 
- * @typedef {object} FulfillOptions
- * @property {number} id
- * @property {string} name
- * @property {string} name2
  * 
+ * @typedef {object} OrderData Order scheme.
+ * @property {string} id unique order id
+ * @property {object} status status of checkout, fulfillment and payment
+ * @property {CheckoutStatusOptions} status.checkout checkout status
+ * @property {PaymentOptions} status.payment payment status
+ * @property {FulfillOptions} status.fulfillment fulfillment status
+ * @property {object} contact buyer info
+ * @property {string} contact.phone buyer's phone number
+ * @property {string} contact.email buyer's email
+ * @property {string} contact.uid buyer's firebase authentication user id (optional)
+ * @property {Address} address shipping address info
+ * @property {LineItem[]} line_items line items is a list of the purchased products
+ * @property {string} notes notes for the order
+ * @property {ShippingData} delivery shipping method info
+ * @property {DiscountData[]} coupons a list of manual coupons
+ * @property {PricingData} pricing pricing information
+ * @property {ValidationEntry[]} [validation] in case the order went through validation 
+ * @property {OrderPaymentGatewayData} payment_gateway payment gateway info and status
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} search simple search index
+ */
+export const OrderData = {}
+
+
+/** 
+ * @typedef {object} FulfillOptions Fulfillment options encapsulate the current state, see <a href='#FulfillOptionsEnum'>#FulfillOptionsEnum</a> 
+ * @property {number} id 0-draft, 1-processing, 2-shipped, 3-fulfilled, 4-cancelled
+ * @property {string} name readable/printable name
+ * @property {'draft' | 'processing' | 'shipped' | 'fulfilled' | 'cancelled'} name2 unique name (like id)
  */
 export const FulfillOptions = {}
 
 /** 
- * @typedef {object} PaymentOptions
- * @property {number} id
- * @property {string} name
- * @property {string} name2
- * 
+ * @typedef {object} PaymentOptions Payment options encapsulate the current state, see <a href='#PaymentOptionsEnum'>#PaymentOptionsEnum</a> 
+ * @property {number} id 0-unpaid, 1-captured, 2-requires_auth, 3-requires_auth, 4-voided, 5-failed, 6-partially_paid, 7-refunded
+ * @property {string} name readable/printable name
+ * @property {'unpaid' | 'authorized' | 'captured' | 'requires_auth' | 'voided' | 'partially_paid' | 'refunded' | 'partially_refunded'} name2 unique name (like id)
  */
 export const PaymentOptions = {}
 
 /** 
- * @typedef {object} CheckoutStatusOptions
- * @property {number} id
- * @property {string} name
- * 
+ * @typedef {object} CheckoutStatusOptions Checkout status encapsulate the current state, see <a href='#CheckoutStatusEnum'>#CheckoutStatusEnum</a> 
+ * @property {number} id 0-created, 1-requires_action, 2-failed, 3-complete
+ * @property {string} name readable/printable name
+ * @property {'created' | 'requires_action' | 'failed' | 'complete'} name2 unique name (like id)
+ */
+
+/** 
  * @enum {CheckoutStatusOptions} 
  */
 export const CheckoutStatusEnum = {
   created: { 
-    id: 0, name: 'created'
+    id: 0, name2: 'created', name: 'Created'
   },
   requires_action: { 
-    id: 1, name: 'requires_action'
+    id: 1, name2: 'requires_action', name: 'Requires Action'
   },
   failed: { 
-    id: 2, name: 'failed'
+    id: 2, name2: 'failed', name: 'Failed'
   },
   complete: { 
-    id: 3, name: 'complete'
+    id: 3, name2: 'complete', name: 'Complete'
   },
 }
 
@@ -475,7 +465,7 @@ export const PaymentOptionsEnum = {
     id: 2, name: 'Captured', name2: 'captured'
   },
   requires_auth: { 
-    id: 3, name: 'Requires Authentication', name2: 'requires authentication'
+    id: 3, name: 'Requires Authentication', name2: 'requires_auth'
   },
   voided: { 
     id: 4, name: 'Voided', name2: 'voided'
@@ -484,32 +474,46 @@ export const PaymentOptionsEnum = {
     id: 5, name: 'Failed', name2: 'failed'
   },
   partially_paid: { 
-    id: 6, name: 'Partially paid', name2: 'partially paid' 
+    id: 6, name: 'Partially paid', name2: 'partially_paid' 
   },
   refunded: { 
     id: 7, name: 'Refunded', name2: 'refunded' 
   },
   partially_refunded: { 
-    id: 8, name: 'Partially Refunded', name2: 'partially refunded' 
+    id: 8, name: 'Partially Refunded', name2: 'partially_refunded' 
   },
 }
 
+/** 
+ * @typedef {object} PricingData Pricing object exaplins how the pricing of an order was calculated given a stack of automatic discounts, coupons, line items and shipping method
+ * @property {EvoEntry[]} evo explanation of how discounts stack and change pricing
+ * @property {ShippingData} shipping_method selected shipping method
+ * @property {number} subtotal_undiscounted subtotal of items price before discounts
+ * @property {number} subtotal_discount sum of all discounts at all stages
+ * @property {number} subtotal subtotal_undiscounted - subtotal_discount
+ * @property {number} total subtotal + shipping
+ * @property {number} total_quantity how many items were discounted
+ * @property {string} uid firebase authentication user id
+ * @property {DiscountError[]} errors
+ */
+export const PricingData = {}
+
 
 /** 
- * @typedef {object} LineItem
- * @property {string} id
- * @property {number} price
- * @property {number} qty
- * @property {number} stock_reserved
- * @property {ProductData} data 
+ * @typedef {object} LineItem A line item is a product, that appeared in an order
+ * @property {string} id id or handle of product
+ * @property {number} price it's known price
+ * @property {number} qty integer quantity of how many such products were bought
+ * @property {number} stock_reserved used by order to indicate it has reserved stock and it's amount
+ * @property {ProductData} data (optional) the product data
  **/ 
 export const LineItem = {}
 
 /**
- * @typedef {object} EvoEntry
+ * @typedef {object} EvoEntry Explain how a specific discount was used to discount line items
  * @property {DiscountData} discount discount data
- * @property {string} discount_code
- * @property {number} total_discount total discount at this stage
+ * @property {string} discount_code the discount code
+ * @property {number} total_discount the amount of money that was discounted by this discount
  * @property {number} quantity_undiscounted how many items are left to discount
  * @property {number} quantity_discounted how many items were discounted now
  * @property {number} subtotal running subtotal without shipping
@@ -519,24 +523,11 @@ export const LineItem = {}
  * @typedef {object} DiscountError
  * @property {string} discount_code
  * @property {string} message
- * 
- * 
- * @typedef {object} PricingData
- * @property {EvoEntry[]} evo
- * @property {string} uid
- * @property {ShippingData} shipping_method
- * @property {number} subtotal_undiscounted total of items price before discounts
- * @property {number} subtotal_discount total of items price after discounts
- * @property {number} subtotal subtotal_undiscounted - subtotal_discount
- * @property {number} total subtotal + shipping
- * @property {number} total_quantity
- * @property {DiscountError[]} errors
- */
-export const PricingData = {}
+ */ 
 export const EvoEntry = {}
 
 /**
- * @typedef {object} ValidationEntry
+ * @typedef {object} ValidationEntry checkouts or draft orders might be validated in automatic systems
  * @property {string} id
  * @property {string} title
  * @property {'out-of-stock' | 'not-enough-stock' | 'some-stock-is-on-hold'} message
@@ -546,55 +537,29 @@ export const EvoEntry = {}
 export const ValidationEntry = {}
 
 /**
- * @typedef {object} OrderPaymentGatewayData
- * @property {string} gateway_id
- * @property {object} on_checkout_create
- * @property {object} on_checkout_complete
- * @property {object} latest_status
+ * @typedef {object} OrderPaymentGatewayData How did the order interacted with a payment gateway ? 
+ * @property {string} gateway_id the payment gateway identifier
+ * @property {object} on_checkout_create result of gateway at checkout creation
+ * @property {object} on_checkout_complete result of gateway at checkout completion
+ * @property {object} latest_status latest status of payment
  */
 /**@type {OrderPaymentGatewayData} */
 export const OrderPaymentGateway = {}
 
-/** 
- * 
- * @typedef {object} OrderData
- * @property {string[]} search
- * @property {object} status
- * @property {CheckoutStatusOptions} status.checkout
- * @property {PaymentOptions} status.payment
- * @property {FulfillOptions} status.fulfillment
- * @property {object} contact
- * @property {string} contact.phone
- * @property {string} contact.email
- * @property {string} contact.uid
- * @property {LineItem[]} line_items
- * @property {string} id
- * @property {number} createdAt
- * @property {Address} address
- * @property {number} updatedAt
- * @property {string} notes
- * @property {ShippingData} delivery
- * @property {DiscountData[]} coupons
- * @property {PricingData} pricing
- * @property {ValidationEntry[]} validation
- * @property {OrderPaymentGatewayData} payment_gateway
- * @property {string[]} tags
- * @property {AttributeData[]} attributes
- */
-export const OrderData = {}
 
 
 // posts
 
 /** 
- * @typedef {object} PostData
- * @property {number} createdAt
- * @property {string} title
- * @property {string[]} search
- * @property {string} handle
- * @property {number} updatedAt
- * @property {string} text
- * @property {string[]} media
+ * @typedef {object} PostData Post data is a rich text and media resource. Can be used for writing blog posts with markdown and html
+ * @property {string} handle unique handle
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string} title title of collection
+ * @property {string[]} search simple search index
+ * @property {string} text rich text
  */
 export const PostData = {}
 
@@ -602,45 +567,92 @@ export const PostData = {}
 // shipping methods
 
 /** 
- * @typedef {object} ShippingData
- * @property {string} id
- * @property {number} price
- * @property {number} updatedAt
- * @property {number} createdAt
- * @property {string} name
- * @property {string} desc
- * @property {string[]} media
- * @property {string[]} tags
- * @property {AttributeData[]} attributes
+ * @typedef {object} ShippingData Shipping method info is used to describe the shipping options you offer
+ * @property {string} id unique identifier
+ * @property {number} price the price of the shipping method
+ * @property {string} name name or title of the method
+ * @property {string} desc description of the method
+ * @property {AttributeData[]} attributes custom attributes
+ * @property {string[]} tags list of tags , example ['genere_action', 'rated_M', ...]
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {string[]} media list of image urls
+ * @property {string[]} search simple search index
  */
 export const ShippingData = {}
 
 // payment gateway config
 
 /** 
- * @typedef {object} PaymentGatewayData
- * @property {string} title
- * @property {number} id
- * @property {number} gateway_id
- * @property {number} updatedAt
- * @property {number} createdAt
- * @property {AttributeData[]} attributes
+ * @typedef {object} PaymentGatewayData Payment gateway configs which you can load at backend to define keys, secrets and specific behaviours
+ * @property {string} title title of the gateway
+ * @property {number} id it's identifier
+ * @property {number} gateway_id same as id
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {AttributeData[]} attributes custom attributes
  */
 export const PaymentGatewayData = {}
 
 // payment gateway config
 
 /** 
- * @typedef {object} SettingsData
- * @property {object} backend
- * @property {string} backend.url
- * @property {string} backend.apiKey
- * @property {string} backend.secret
- * @property {number} updatedAt
- * @property {number} createdAt
- * @property {AttributeData[]} attributes
+ * @typedef {object} SettingsData Shelf's settings
+ * @property {object} backend backend info
+ * @property {string} backend.url permanant url of shelf app at backend
+ * @property {string} backend.apiKey api key security. Will be sent with every request to backend
+ * @property {string} backend.secret (soon) a secret that will be used to sign requests for improved
+ * @property {number} updatedAt update time millis UTC
+ * @property {number} createdAt create time millis UTC
+ * @property {AttributeData[]} attributes custom attributes
  */
 export const SettingsData = {}
+
+// notifications
+/**
+ * @typedef {object} NotificationData Notications are used to describe admin notifications, you can write these documents from backend to deliver notifications about your business
+ * @property {number} updatedAt update time millis UTC
+ * @property {string} message message of notification, can be markdown, markup or plain text
+ * @property {string[]} search (required) search index 
+ * @property {string} [author] author of the notification
+ * @property {NotificationAction[]} actions list of actions
+ */
+export const NotificationData = {}
+/**@type {NotificationActionType} */
+
+/**
+ * @typedef {object} NotificationAction each notification may have an actionable item associated with it. For example, clicking an order notification will route to the order page at Shelf
+ * @property {string} name name of the action
+ * @property {NotificationActionType} type the type of action
+ * @property {NotificationActionRouteParams | NotificationActionUrlParams} params extra params for the actions type
+ * 
+ */
+
+/**@type {NotificationAction} */
+export const NotificationAction = {}
+
+/**
+ * @typedef {'route' | 'url'} NotificationActionType 'route' means routing inside shelfm 'url' is linking to a url
+ */
+/**@type {NotificationData} */
+export const NotificationActionType = {}
+
+
+/**
+ * @typedef {object} NotificationActionRouteParams route inside shelf action params
+ * @property {string} collection which collection
+ * @property {string} document which document
+ */ 
+/**@type {NotificationActionRouteParams} */
+export const NotificationActionRouteParams = {}
+
+/** 
+ * @typedef {object} NotificationActionUrlParams Action params for actions of type 'url'
+ * @property {boolean} new_window open the url in new window
+ * @property {string} url the url to open
+ */
+/**@type {NotificationActionUrlParams} */
+export const NotificationActionUrlParams = {}
 
 // stats
 
@@ -655,6 +667,7 @@ export const MovingStatsProduct = {}
 /**
  * @typedef {object} MovingStatsDay
  * @property {number} total total income in day
+ * @property {number} orders total orders in day
  * @property {number} orders total orders in day
  * @property {number} day start of day in UTC millis
  * @property {Object.<string, number>} discounts a map between discount code to count
@@ -682,9 +695,27 @@ export const MovingStatsInfo = {}
 export const MovingStatsData = {}
 
 /** 
- * @typedef {object} CartData
+ * @typedef {object} CartData A client cart, used for line items
  * @property {string} id
  * @property {number} createdAt
  * @property {LineItem[]} line_items
  */
 export const CartData = {}
+
+/**
+ * @typedef {object} ShelfAdminConfig
+ * @property {string} apiKey
+ * @property {string} projectId
+ * @property {string} storageBucket
+ * @property {string} backend
+ */
+
+// backend
+
+/**
+ * @typedef {object} BackendPaymentGatewayStatus
+ * @property {string[]} messages array of message, support markdown, html and plain text
+ */
+/**@type {BackendPaymentGatewayStatus} */
+export const BackendPaymentGatewayStatus = {}
+
